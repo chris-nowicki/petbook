@@ -5,6 +5,7 @@ import ContextWrapper from "./components/ContextWrapper";
 function App() {
 	return (
 		<div>
+			<h1 className="text-6xl"> Test merge</h1>
 			<ContextWrapper>
 				<Router>
 					<Routes>
