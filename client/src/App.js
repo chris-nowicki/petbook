@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./views/Dashboard";
 import ContextWrapper from "./components/ContextWrapper";
 
 function App() {
@@ -13,9 +14,9 @@ function App() {
 						<Route path="/login" element={<Login />} /> */}
 
 						{/* the following route is for the dashboard.  Whatever is in the path is what loads in the OUTLET 
-            SECTION of Dashboard.jsx */}
-						{/* <Route path="/dashboard" element={<Dashboard />}>
-							<Route
+            			SECTION of Dashboard.jsx */}
+						<Route path="/dashboard" element={<Dashboard />}>
+							{/* <Route
 								path="feed"
 								index
 								element={<Feed />}
@@ -30,8 +31,8 @@ function App() {
 								path="edit-post/:id"
 								index
 								element={<EditPost />}
-							/>
-						</Route> */}
+							/> */}
+						</Route>
 						{/* END DASHBOARD ROUTE SECTION */}
 					</Routes>
 				</Router>
