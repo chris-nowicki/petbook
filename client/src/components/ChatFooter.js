@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 
-const ChatFooter = ({socket}) => {
+const ChatFooter = ({socket, messages, setMessages}) => {
 
-    const [message, setMessage] = useState('');
-      
+     const [message, setMessage] = useState('');
+     //const [user, setUser] = userId 
+     //
+
         const handleSendMessage = (e) => {
             e.preventDefault();
             console.log({ userName: localStorage.getItem('userName'), message });
@@ -15,6 +17,9 @@ const ChatFooter = ({socket}) => {
                     socketID: socket.id
                 })
             }
+            setMessages([...messages , {'id' : 'uuidxx', 'message' : message, 'user': 'useridxx'}])
+        
+
             setMessage('');
         };
 
