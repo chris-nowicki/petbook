@@ -1,10 +1,24 @@
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./views/Dashboard";
 import ContextWrapper from "./components/ContextWrapper";
+import Chat from './components/Chat';
+import CreateCat from './components/CreateCat';
+import CreateDog from './components/CreateDog'
+import io from 'socket.io-client'
 
 function App() {
-	return (
+	
+    const [socket] = useState(() => io(':8001'));
+
+  useEffect(() => {
+    console.log("Effect running")
+    socket.on("Welcome", data => console.log(data));
+    return () => socket.disconnect(true);
+  }, [])
+  
+  return (
 		<div>
 			<ContextWrapper>
 				<Router>
@@ -33,6 +47,10 @@ function App() {
 								element={<EditPost />}
 							/> */}
 						</Route>
+            
+            <Route path="/chat" element={<Chat socket={socket} />}/>
+            <Route path='/createcat' element={<CreateCat />} />
+            <Route path='/createdog' element={<CreateDog />} />
 						{/* END DASHBOARD ROUTE SECTION */}
 					</Routes>
 				</Router>
