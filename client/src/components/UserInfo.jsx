@@ -1,9 +1,7 @@
 import React from "react";
 
 function UserInfo() {
-	return <div className="flex w-full flex-col items-center p-4">
-        {/* create user info code here */}
-    </div>;
+	return <div className="flex w-full flex-row p-4"></div>;
 }
 
 export default UserInfo;
