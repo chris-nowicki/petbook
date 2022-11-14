@@ -18,7 +18,7 @@ function Navbar() {
 				{ withCredentials: true }
 			)
 			.then((res) => {
-				setUser([])
+				setUser(null)
 				setLoaded(false)
 				navigate("/login")
 			})
