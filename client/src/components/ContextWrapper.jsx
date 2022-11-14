@@ -1,18 +1,21 @@
-import React, { useState } from "react";
 import MyContext from "../contexts/MyContext";
+import React, { useState, useEffect } from "react";
 
 function ContextWrapper({ children }) {
 	const [loaded, setLoaded] = useState(true);
-	return (
-		<MyContext.Provider
-			value={{
-				loaded,
+	const [user, setUser] = useState({});
+  return (
+    <MyContext.Provider
+      value={{
+        user,
+        setUser,
+        loaded,
 				setLoaded,
-			}}
-		>
-			{children}
-		</MyContext.Provider>
-	);
+      }}
+    >
+      {children}
+    </MyContext.Provider>
+  );
 }
 
 export default ContextWrapper;
