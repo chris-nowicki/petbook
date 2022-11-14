@@ -14,7 +14,7 @@ function Feed() {
 					<option value="allPosts" selected>
 						All Posts
 					</option>
-					<option value="myPosts" selected>
+					<option value="myPosts">
 						My Posts
 					</option>
 					<option value="cats">Cats</option>

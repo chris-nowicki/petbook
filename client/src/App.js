@@ -7,6 +7,8 @@ import CreateCat from "./components/CreateCat";
 import CreateDog from "./components/CreateDog";
 import io from "socket.io-client";
 import Feed from "./components/Feed";
+import Register from "./components/Register";
+import Login from "./components/Login";
 
 function App() {
 	const [socket] = useState(() => io(":8001"));
@@ -15,6 +17,7 @@ function App() {
 		console.log("Effect running");
 		socket.on("Welcome", (data) => console.log(data));
 		return () => socket.disconnect(true);
+		// eslint-disable-next-line
 	}, []);
 
 	return (

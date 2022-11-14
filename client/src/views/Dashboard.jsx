@@ -1,29 +1,57 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import MyContext from "../contexts/MyContext";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import UserInfo from "../components/UserInfo";
+import axios from 'axios'
 
 function Dashboard() {
-	const { loaded } = useContext(MyContext);
+	const { setUser,loaded, setLoaded } = useContext(MyContext);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		// redirect /dashboard to /feed
+		if (
+			window.location.href === "http://localhost:3000/dashboard" ||
+			window.location.href === "http://localhost:3000/dashboard/"
+		) {
+			navigate("feed");
+		}
+			axios
+			.get("http://localhost:8000/api/users/getUser", {
+				withCredentials: true,
+			})
+			.then((res) => {
+				console.log(res.data)
+				setUser(res.data);
+				setLoaded(true);
+			})
+			.catch((err) => {
+				setLoaded(false);
+				navigate("/login");
+			});
+
+		// eslint-disable-next-line
+	}, []);
+
 	return (
 		<>
 			{/* page will only load if user is logged in and data is loaded */}
 			{loaded && (
 				<>
 					{/* main dashboard container */}
-					<div className="container mx-auto max-w-5xl h-screen">
+					<div className="container mx-auto h-screen max-w-5xl shadow-lg shadow-black/25">
 						<Navbar />
 
 						{/* user bar and main dashboard viewing container */}
 						<div className="flex h-full w-full flex-row">
 							{/* user info container */}
-							<div className="flex flex-col w-48 border border-blue-600">
+							<div className="flex w-48 flex-col bg-gray-200">
 								<UserInfo />
 							</div>
 
 							{/* outlet for post feed, create post, edit post, and view post */}
-							<div className="flex h-full w-full flex-col border border-green-600">
+							<div className="flex h-full w-full flex-col bg-white">
 								<Outlet />
 							</div>
 							{/* end outlet*/}
