@@ -43,7 +43,7 @@ function Input({
 			</div>
 			{errorProps && (
 				<p className="mt-1 text-sm text-red-600" id="email-error">
-					{errorProps}
+					{errorProps.message}
 				</p>
 			)}
 		</div>

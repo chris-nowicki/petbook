@@ -1,32 +1,51 @@
-import React from "react";
-import axios from 'axios'
-import {useNavigate, Link} from 'react-router-dom'
+import React, { useContext } from "react";
+import MyContext from "../contexts/MyContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import PetsIcon from "@mui/icons-material/Pets";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function Navbar() {
-	const navigate = useNavigate()
+	const { setUser, setLoaded } = useContext(MyContext);
+	const navigate = useNavigate();
 
-	const logout = (e) =>{
-		axios.post('http://localhost:8000/api/users/logout',
-			{withCredentials:true})
-		.then((res)=>{
-			console.log('logged out')
-			navigate("/")
-		}).catch((err)=>{
-			console.log(err)
-		})
-	}
+	const handleLogOut = () => {
+		axios
+			.post(
+				"http://localhost:8000/api/users/logout",
+				{},
+				{ withCredentials: true }
+			)
+			.then((res) => {
+				setUser(null);
+				setLoaded(false);
+				navigate("/");
+			})
+			.catch((err) => console.log(err));
+	};
+
+
 	return (
-		<div className="flex h-24 w-full flex-row border border-red-600 justify-between items-center p-4 bg-orange-400">
-			<div  className="basis -1/4">
-				<h1 className="font-mono text-orange-50 text-2xl" >PetBook</h1>
+		<div className="z-50 flex h-24 w-full flex-row items-center justify-between bg-orange-400 p-4 shadow-md shadow-black/25">
+			<div className="flex flex-row items-center">
+				<PetsIcon fontSize="large" sx={{ color: "white" }} />
+				<h1 className=" ml-2 mt-1 font-mono text-3xl text-orange-50">
+					PetBook
+				</h1>
 			</div>
-			<div className="flex justify-end">
-						<button className="bg-orange-50 px-6 py-2 text-orange-900 hover:bg-lime-100 rounded  border-orange-900">
-							create post</button>
-					<button onClick={logout}
-							className="bg-orange-50 px-6 py-2 text-orange-900 hover:bg-lime-100 ml-3 border-orange-900 rounded"> 
-							logout</button>
+			<div className="flex flex-row items-center">
+				<button className="flex flex-row items-center rounded border-orange-900 bg-orange-50  px-4 py-2 text-orange-900 hover:bg-lime-100">
+					<AddCircleOutlineIcon />{" "}
+					<span className="ml-1">create post</span>
+				</button>
 
+				<button
+					className="ml-3 flex flex-row items-center rounded border-orange-900 bg-orange-50 px-4 py-2 text-orange-900 hover:bg-lime-100"
+					onClick={() => handleLogOut()}
+				>
+					<span className="mr-1">logout</span> <LogoutIcon />
+				</button>
 			</div>
 		</div>
 	);
