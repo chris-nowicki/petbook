@@ -1,8 +1,7 @@
-
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { response } = require("express");
+const { response, request } = require("express");
 const secret = process.env.SECRET_KEY;
 
 module.exports = {
@@ -29,11 +28,9 @@ module.exports = {
 				})
 				.catch((err) => res.status(400).json(err));
 		} else {
-			return res
-				.status(400)
-				.json({
-					errors: { email: { message: "Email already exists!" } },
-				});
+			return res.status(400).json({
+				errors: { email: { message: "Email already exists!" } },
+			});
 		}
 	},
 
@@ -98,21 +95,37 @@ module.exports = {
 			.then((user) => res.json(user))
 			.catch((err) => res.json(err));
 	},
+
+	// get user by id
+	getAuthor: async (req, res) => {
+		const { author_id } = req.body;
+
+		console.log(req.body);
+		User.findOne({ _id: author_id })
+			.then((author) => {
+				console.log(author);
+				res.json({authorName: author.firstName + " " + author.lastName});
+			})
+			.catch((err) => {
+				console.log(err);
+				res.json(err);
+			});
+	},
 };
 
 // backup for get one, update, and delete
-// // get one product
-// module.exports.getOneAuthor = (request, response) => {
-//     Author.findOne({_id:request.params.id})
-//         .then(author => {
-//             console.log(author)
-//             response.json(author)
-//         })
-//         .catch(err => {
-//             console.log(err)
-//             response.json(err)
-//         })
-// }
+// get one product
+module.exports.getOneAuthor = (request, response) => {
+	Author.findOne({ _id: request.params.id })
+		.then((author) => {
+			console.log(author);
+			response.json(author);
+		})
+		.catch((err) => {
+			console.log(err);
+			response.json(err);
+		});
+};
 
 // // update product
 // module.exports.updateAuthor = (request, response) => {
@@ -139,4 +152,3 @@ module.exports = {
 //             response.json(err)
 //         })
 // }
-
