@@ -25,7 +25,7 @@ function App() {
 			<ContextWrapper>
 				<Router>
 					<Routes>
-						{/* <Route path='/' element={<LandingPage />} default /> */}
+						<Route path='/' element={<Login />} default />
 						<Route path="/register" element={<Register />} />
 						<Route path="/login" element={<Login />} />
 
