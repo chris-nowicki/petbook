@@ -23,8 +23,8 @@ function App() {
 				<Router>
 					<Routes>
 						{/* <Route path='/' element={<LandingPage />} default /> */}
-						{/* <Route path="/register" element={<Register />} />
-						<Route path="/login" element={<Login />} /> */}
+						<Route path="/register" element={<Register />} />
+						<Route path="/login" element={<Login />} />
 
 						{/* the following route is for the dashboard.  Whatever is in the path is what loads in the OUTLET 
             			SECTION of Dashboard.jsx */}
