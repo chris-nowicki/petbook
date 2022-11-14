@@ -40,6 +40,7 @@ function Dashboard() {
 			{loaded && (
 				<>
 					{/* main dashboard container */}
+
 					<div className="container mx-auto h-screen max-w-5xl shadow-lg shadow-black/25">
 						<Navbar />
 
@@ -51,7 +52,9 @@ function Dashboard() {
 							</div>
 
 							{/* outlet for post feed, create post, edit post, and view post */}
+
 							<div className="flex h-full w-full flex-col bg-white">
+
 								<Outlet />
 							</div>
 							{/* end outlet*/}

@@ -25,6 +25,7 @@ function Navbar() {
 			.catch((err) => console.log(err));
 	};
 
+
 	return (
 		<div className="z-50 flex h-24 w-full flex-row items-center justify-between bg-orange-400 p-4 shadow-md shadow-black/25">
 			<div className="flex flex-row items-center">
