@@ -28,7 +28,7 @@ function Dashboard() {
 			})
 			.catch((err) => {
 				setLoaded(false);
-				navigate("/login");
+				navigate("/");
 			});
 
 		// eslint-disable-next-line
