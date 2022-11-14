@@ -18,11 +18,11 @@ function Navbar() {
 				{ withCredentials: true }
 			)
 			.then((res) => {
-				setUser(null)
-				setLoaded(false)
-				navigate("/login")
+				setUser(null);
+				setLoaded(false);
+				navigate("/");
 			})
-			.catch((err) => console.log(err))
+			.catch((err) => console.log(err));
 	};
 
 	return (
@@ -39,7 +39,10 @@ function Navbar() {
 					<span className="ml-1">create post</span>
 				</button>
 
-				<button className="ml-3 flex flex-row items-center rounded border-orange-900 bg-orange-50 px-4 py-2 text-orange-900 hover:bg-lime-100" onClick={() => handleLogOut()}>
+				<button
+					className="ml-3 flex flex-row items-center rounded border-orange-900 bg-orange-50 px-4 py-2 text-orange-900 hover:bg-lime-100"
+					onClick={() => handleLogOut()}
+				>
 					<span className="mr-1">logout</span> <LogoutIcon />
 				</button>
 			</div>
