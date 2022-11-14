@@ -1,7 +1,7 @@
 import React from "react";
 import MyContext from "../contexts/MyContext";
 import { Outlet, useNavigate } from "react-router-dom";
-
+import { useContext } from "react";
 function Dashboard() {
 	return (
 		<>
