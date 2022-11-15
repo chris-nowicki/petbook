@@ -33,13 +33,13 @@ function App() {
 						{/* the following route is for the dashboard.  Whatever is in the path is what loads in the OUTLET 
             			SECTION of Dashboard.jsx */}
 						<Route path="/dashboard" element={<Dashboard />}>
-							{/* <Route
+							<Route
 								path="feed"
 								index
 								element={<Feed />}
 								default
 							/>
-							<Route
+							{/* <Route
 								path="create-post"
 								index
 								element={<CreatePost />}
