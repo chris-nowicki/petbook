@@ -53,8 +53,8 @@ function App() {
 							/> */}
 						</Route>
             
-            <Route path="/chat" element={<Chat socket={socket} />}/>
             <Route path='/createcat' element={<CreateCat />} />
+            <Route path="/chat" element={<Chat socket={socket} />}/>
             <Route path='/createdog' element={<CreateDog />} />
 						{/* END DASHBOARD ROUTE SECTION */}
 					</Routes>

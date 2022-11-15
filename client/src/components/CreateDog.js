@@ -1,12 +1,16 @@
-import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import Navbar from './Navbar'
+import UserInfo from './UserInfo'
+import React, { useContext, useEffect,useState } from "react";
+import MyContext from "../contexts/MyContext";
 
 const CreateDog = () => {
     const [ caption, setCaption] = useState('')
     const [picture, setPicture] = useState('')
     const[errors, setErrors] = useState([])
     const navigate = useNavigate()
+    const {user,setUser}=useContext(MyContext)
 
 
     useEffect(()=>{
@@ -53,11 +57,12 @@ const CreateDog = () => {
     }
     return(
 
-        <div className='App   '>
+        <div className='App'>
+
             {/* margarita's styling */}
             <div className='flex h-screen w-5/6 flex-col items-center justify-center'>
                 <div className='flex flex-col rounded border border-black p-4 shadow-md shadow-black/25 items-center'>
-                    <img className='animaPicture  w-96' src ={picture} alt= 'A cute and snuggly pet!'/>
+                    <img className='animaPicture  w-60' src ={picture} alt= 'A cute and snuggly pet!'/>
                 <button  className="w-32 bg-stone-300 px-4 py-2 my-3 rounded hover:bg-lime-100"onClick={getDog}>Get A Dog!</button>
                 <div className='getForm items-center justify-center'>
                     <form className='' onSubmit={onSubmitHandler}>
@@ -95,6 +100,7 @@ const CreateDog = () => {
                 </form>
             </div> */}
         </div>
+
     )
 
 }
