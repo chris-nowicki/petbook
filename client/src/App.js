@@ -6,6 +6,9 @@ import Chat from './components/Chat';
 import CreateCat from './components/CreateCat';
 import CreateDog from './components/CreateDog'
 import io from 'socket.io-client'
+import LandingPage from "./components/LandingPage";
+import Login from "./components/Login";
+import Register from "./components/Register"
 
 
 function App() {
@@ -23,9 +26,9 @@ function App() {
 			<ContextWrapper>
 				<Router>
 					<Routes>
-						{/* <Route path='/' element={<LandingPage />} default /> */}
-						{/* <Route path="/register" element={<Register />} />
-						<Route path="/login" element={<Login />} /> */}
+						<Route path='/' element={<LandingPage />} default />
+						<Route path="/register" element={<Register />} />
+						<Route path="/login" element={<Login />} />
 
 						{/* the following route is for the dashboard.  Whatever is in the path is what loads in the OUTLET 
             			SECTION of Dashboard.jsx */}
