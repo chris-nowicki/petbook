@@ -7,3 +7,5 @@ module.exports = (app) => {
 	app.put("/api/posts/add-comment", PostController.addComment);
 	app.put("/api/posts/add-like", PostController.addLike);
 };
+
+// comment
