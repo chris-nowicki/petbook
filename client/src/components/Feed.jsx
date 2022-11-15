@@ -29,8 +29,9 @@ function Feed() {
 		// eslint-disable-next-line
 	}, []);
 
+	// post filters
 	let filteredPosts = [...posts]
-	if (filter === "allposts") {
+	if (filter === "allPosts") {
 		filteredPosts = [...posts]
 	} else if (filter === "cat") {
 		filteredPosts = filteredPosts.filter((post) => post.species === 'cat')
