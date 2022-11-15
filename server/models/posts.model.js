@@ -5,6 +5,9 @@ const PostSchema = new mongoose.Schema(
 		author_id: {
 			type: String,
 		},
+		authorName: {
+			type: String
+		},
 		postImage: {
 			type: String,
 			trim: true,
