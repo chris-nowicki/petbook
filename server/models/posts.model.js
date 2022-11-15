@@ -17,27 +17,21 @@ const PostSchema = new mongoose.Schema(
 			type: String,
 			trim: true,
 		},
-		likes: [
-			{
-				user_id: {
-					type: String,
+		Likes: {
+			type: Number,
+			default: 0,
+			comments: [
+				{
+					author_id: {
+						type: Number,
+					},
+					comment: {
+						type: String,
+						trim: true,
+					},
 				},
-			},
-		],
-		comments: [
-			{
-				user_id: {
-					type: String,
-				},
-				userName: {
-					type: String,
-				},
-				comment: {
-					type: String,
-					trim: true,
-				},
-			},
-		],
+			],
+		},
 	},
 	{ timestamps: true }
 );
