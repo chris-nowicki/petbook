@@ -59,7 +59,7 @@ const CreateCat = () => {
 		e.preventDefault();
 		axios
 			.post("http://localhost:8000/api/posts", {
-				author_id: user.id,
+				author_id: user._id,
 				authorName: `${user.firstName} ${user.lastName}`,
 				postImage: picture,
 				content: caption,
@@ -81,6 +81,7 @@ const CreateCat = () => {
 	};
 	return (
 		<div className="App">
+		
 			<div className="Card">
 				<img
 					className="animaPicture"
