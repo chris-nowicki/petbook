@@ -12,7 +12,7 @@ const ChatFooter = ({socket, messages, setMessages}) => {
             if(message.trim()&& localStorage.getItem('userName')){
                 socket.emit('message',{
                     text: message,
-                    name: localStorage.getItem('userName'), 
+                    name: localStorage.getItem('userName'),
                     id : `${socket.id}${Math.random()}`,
                     socketID: socket.id
                 })
