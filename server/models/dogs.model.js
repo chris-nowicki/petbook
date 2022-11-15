@@ -11,6 +11,9 @@ const DogsSchema = new mongoose.Schema({
         type:String,
         required:[true, 'Caption is required'],
         minlength:[8, 'Caption must be at least 8 characters']
+    },
+    species:{
+        type:String, default :'dog'
     }
     
 }, {timestamps: true});
