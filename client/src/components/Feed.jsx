@@ -10,8 +10,9 @@ function Feed() {
 					name="filters"
 					id="feed-filter"
 					className=" mt-6 rounded-md border-2 border-black text-xl focus:outline-none focus:ring focus:ring-black"
+					defaultValue="allposts"
 				>
-					<option value="allPosts" selected>
+					<option value="allPosts">
 						All Posts
 					</option>
 					<option value="myPosts">
