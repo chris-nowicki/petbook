@@ -64,7 +64,7 @@ const CreateDog = () => {
                         {/* <label><h4>Add a caption</h4></label> */}
                         {errors.map((err,index)=><p key={index}>{err}</p>)}
                         <input type = 'hidden' value ={picture}/>
-                        <textarea rows="3" className="block p-2.5 rounded-lg border border-gray-300" type = 'text' onChange={(e)=>setCaption(e.target.value)} placeholder="add a caption"/>
+                        <textarea rows="3" className="block p-2.5  rounded-lg border border-gray-300" type = 'text' onChange={(e)=>setCaption(e.target.value)} placeholder="add a caption"/>
                         <div>
                             <p className='ml-4 text-sm'>*8 characters required</p>
                         </div>
@@ -75,6 +75,7 @@ const CreateDog = () => {
                 </div>
                 </div>
             </div>
+
             {/* <div className='Card '>
                 <img className='animaPicture' src ={picture} alt= 'A cute and snuggly pet!'/>
             </div>
