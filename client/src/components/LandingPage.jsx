@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const LandingPage = () => {
   return (
-    <div lassName="flex h-screen w-full flex-col items-center justify-center bg-orange-400">
+    <div className="flex h-screen w-full flex-col items-center justify-center bg-orange-400">
        
         <div className="flex flex-col rounded border border-black p-16 shadow-lg shadow-orange-400/25">
       <div className="container mx-auto flex items-right flex-row-reverse py-2">
