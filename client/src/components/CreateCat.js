@@ -37,9 +37,10 @@ const CreateCat = () => {
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
 		axios
-			.post("http://localhost:8000/api/cats", {
-				picture,
-				caption,
+			.post("http://localhost:8000/api/posts", {
+				postImage,
+				species : cat,
+				content,
 			})
 			.then((res) => {
 				console.log(res);

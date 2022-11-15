@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+//import dogRoutes from '../../server/routes/dogs.routes'
 
 const CreateDog = () => {
     const [ caption, setCaption] = useState('')
@@ -33,9 +34,10 @@ const CreateDog = () => {
 
     const onSubmitHandler = (e)=>{
         e.preventDefault();
-        axios.post('http://localhost:8000/api/dogs',{
-            picture,
-            caption
+        axios.post('http://localhost:8000/api/posts',{
+            postImage:picture,
+            species : 'dog', 
+            content : caption
         })
         .then(res =>{
             console.log(res)
@@ -50,7 +52,7 @@ const CreateDog = () => {
             }
             setErrors(errorArr)
         })
-    }
+     }
     return(
         <div className='App'>
             <div className='Card'>
@@ -58,7 +60,7 @@ const CreateDog = () => {
             </div>
             <button onClick={getDog}>Get A Dog!</button>
             <div className='getForm'>
-                <form onSubmit={onSubmitHandler}>
+                <form onSubmit={onSubmitHandler} >
                     <label><h4>Add a caption</h4></label>
                     {errors.map((err,index)=><p key={index}>{err}</p>)}
                     <input type = 'hidden' value ={picture}/>
