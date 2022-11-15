@@ -9,6 +9,7 @@ import io from "socket.io-client";
 import Feed from "./components/Feed";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import CreatePost from "./components/CreatePost";
 
 function App() {
 	const [socket] = useState(() => io(":8001"));
@@ -38,16 +39,16 @@ function App() {
 								element={<Feed />}
 								default
 							/>
-							{/* <Route
+							<Route
 								path="create-post"
 								index
 								element={<CreatePost />}
 							/>
-							<Route
+							{/* <Route
 								path="edit-post/:id"
 								index
 								element={<EditPost />}
-							/> */}
+							/>  */}
 						</Route>
 
 						<Route
