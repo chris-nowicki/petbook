@@ -1,36 +1,32 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import MyContext from '../contexts/MyContext'
+import MyContext from "../contexts/MyContext";
 import { useNavigate } from "react-router-dom";
 
 const CreateCat = () => {
-	const {user, setUser} = useContext(MyContext)
+	const { user, setUser } = useContext(MyContext);
 	const [caption, setCaption] = useState("");
 	const [picture, setPicture] = useState("");
-	const [loaded, setLoaded] = useState(false)
 	const [errors, setErrors] = useState([]);
 	const navigate = useNavigate();
 
-		useEffect(() => {
-			// redirect /dashboard to /feed
-			axios
-				.get("http://localhost:8000/api/users/getUser", {
-					withCredentials: true,
-				})
-				.then((res) => {
-					console.log(res.data);
-					setUser(res.data);
-					setLoaded(true);
-				})
-				.catch((err) => {
-					setLoaded(false);
-					navigate("/");
-				});
+	useEffect(() => {
+		// redirect /dashboard to /feed
+		axios
+			.get("http://localhost:8000/api/users/getUser", {
+				withCredentials: true,
+			})
+			.then((res) => {
+				console.log(res.data);
+				setUser(res.data);
+			})
+			.catch((err) => {
+				navigate("/dashboard/feed");
+			});
 
-			// eslint-disable-next-line
-		}, []);
+		// eslint-disable-next-line
+	}, []);
 
-	console.log(user)
 	useEffect(() => {
 		axios
 			.get("https://api.thecatapi.com/v1/images/search", {
@@ -63,11 +59,11 @@ const CreateCat = () => {
 				authorName: `${user.firstName} ${user.lastName}`,
 				postImage: picture,
 				content: caption,
-				species: "cat"
+				species: "cat",
 			})
 			.then((res) => {
 				console.log(res);
-				navigate("/");
+				navigate("/dashboard/feed");
 			})
 			.catch((err) => {
 				console.log(err);
@@ -81,7 +77,6 @@ const CreateCat = () => {
 	};
 	return (
 		<div className="App">
-		
 			<div className="Card">
 				<img
 					className="animaPicture"

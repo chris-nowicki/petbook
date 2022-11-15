@@ -5,10 +5,9 @@ import axios from "axios";
 import { Alert } from "@mui/material";
 
 function Feed() {
-	const { user, setUser } = useContext(MyContext);
+	const { user, filter } = useContext(MyContext);
 	const [posts, setPosts] = useState([]);
 	const [loaded, setLoaded] = useState(false);
-	const [filter, setFilter] = useState("all posts")
 
 	useEffect(() => {
 		axios
@@ -18,7 +17,6 @@ function Feed() {
 			.then((res) => {
 				console.log(res.data);
 				setPosts(res.data);
-				setFilter("allposts")
 				setLoaded(true);
 			})
 			.catch((err) => {
@@ -30,40 +28,25 @@ function Feed() {
 	}, []);
 
 	// post filters
-	let filteredPosts = [...posts]
+	let filteredPosts = [...posts];
 	if (filter === "allPosts") {
-		filteredPosts = [...posts]
+		filteredPosts = [...posts];
 	} else if (filter === "cat") {
-		filteredPosts = filteredPosts.filter((post) => post.species === 'cat')
+		filteredPosts = filteredPosts.filter((post) => post.species === "cat");
 	} else if (filter === "dog") {
-		filteredPosts = filteredPosts.filter((post) => post.species === 'dog')
+		filteredPosts = filteredPosts.filter((post) => post.species === "dog");
 	} else {
-		console.log(user._id)
-		filteredPosts = filteredPosts.filter((post) => post.author_id === user._id)
-		console.log(filteredPosts)
+		console.log(user._id);
+		filteredPosts = filteredPosts.filter(
+			(post) => post.author_id === user._id
+		);
+		console.log(filteredPosts);
 	}
-	
 
 	return (
 		<div className="flex w-full flex-col items-center">
 			{loaded && (
 				<>
-					<div className="flex flex-row justify-center">
-						<select
-							name="filters"
-							id="feed-filter"
-							className=" mt-6 rounded-md border-2 border-black text-xl focus:outline-none focus:ring focus:ring-black"
-							defaultValue="allposts"
-							onChange={(e) => setFilter(e.target.value)}
-						>
-							<option value="allPosts">All Posts</option>
-							<option value="myPosts">My Posts</option>
-							<option value="cat">Cats</option>
-							<option value="dog">Dogs</option>
-						</select>
-					</div>
-					{/* feed filter end */}
-
 					<div className="mt-6 flex flex-row flex-wrap justify-center">
 						{filteredPosts.map((post) => (
 							<Card

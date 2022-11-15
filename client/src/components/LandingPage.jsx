@@ -7,7 +7,7 @@ const LandingPage = () => {
 			<div className="flex flex-col rounded border border-black p-16 shadow-lg shadow-orange-400/25 bg-orange-400">
 				<div className="items-right container mx-auto flex flex-row-reverse py-2">
 					<Link to={"/login"}>
-						<button className=" border border-black bg-orange-400 bg-black px-9 py-3 text-center text-xl text-white shadow-md shadow-black/25 hover:bg-orange-500">
+						<button className=" border border-black bg-black px-9 py-3 text-center text-xl text-white shadow-md shadow-black/25 hover:bg-orange-500">
 							LOGIN
 						</button>
 					</Link>
