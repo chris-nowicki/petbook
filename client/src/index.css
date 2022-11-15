@@ -11,3 +11,9 @@
 body {
     background-color: #f8fafc;
 }
+
+.postCardImage {
+	width: 300px;
+    height: 180px;
+	object-fit: cover;
+}
