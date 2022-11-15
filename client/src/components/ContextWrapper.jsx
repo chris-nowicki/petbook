@@ -1,21 +1,24 @@
 import MyContext from "../contexts/MyContext";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 function ContextWrapper({ children }) {
-	const [loaded, setLoaded] = useState(true);
-	const [user, setUser] = useState({});
-  return (
-    <MyContext.Provider
-      value={{
-        user,
-        setUser,
-        loaded,
+	const [loaded, setLoaded] = useState(false);
+	const [user, setUser] = useState(null);
+	const [errors, setErrors] = useState([]);
+	return (
+		<MyContext.Provider
+			value={{
+				user,
+				setUser,
+				loaded,
 				setLoaded,
-      }}
-    >
-      {children}
-    </MyContext.Provider>
-  );
+				errors,
+				setErrors
+			}}
+		>
+			{children}
+		</MyContext.Provider>
+	);
 }
 
 export default ContextWrapper;

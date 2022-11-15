@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 require('./config/mongoose.config');
 require('./routes/user.routes')(app);
+require('./routes/post.routes')(app);
 
 const server= app.listen(8001,()=>{
     console.log(`Socket is listening on port: 8001`)

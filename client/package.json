@@ -40,6 +40,10 @@
     ]
   },
   "devDependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/material": "^5.10.13",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",
     "prettier": "^2.7.1",

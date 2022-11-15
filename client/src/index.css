@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.messageCount {
+    background-image: url("./images/chatbox.svg");
+    background-position: cover;
+    background-repeat: no-repeat;
+}
+
+body {
+    background-color: #f8fafc;
+}
