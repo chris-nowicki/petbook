@@ -1,16 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Card from "./Card";
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import { useEffect } from "react";
-//import { castObject } from "../server/models/messages.model";
-
 
 function Feed() {
-	const [post, Setpost] = useState([])
-
-
-
 	return (
 		<div className="flex w-full flex-col">
 			{/* feed filter */}
@@ -32,7 +23,14 @@ function Feed() {
 			</div>
 			{/* feed filter end */}
 			<div className="mt-6 flex flex-row flex-wrap justify-center">
-				
+				<Card
+					postAuthor="Chris"
+					postDate="12/31/22"
+					postImage="https://via.placeholder.com/200x150.png"
+					postContent="This is my cool cat named fred! He is pretty awesome!"
+					postComments={12}
+					postLikes={23}
+				/>
 				<Card
 					postAuthor="Chris"
 					postDate="12/31/22"
