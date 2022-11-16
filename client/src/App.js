@@ -53,6 +53,9 @@ function App() {
 								index
 								element={<CreateCat />}
 							/>
+							<Route path="create-dog" 
+								index
+								element={<CreateDog />} />
 						</Route>
 
             <Route path = "/view-one/:id" element ={<ViewOne/>}/>

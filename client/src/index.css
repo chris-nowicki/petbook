@@ -22,3 +22,9 @@ body {
 .form-select:focus {
     border-color: transparent;
 }
+
+.animalPicture{
+    width: 500px;
+    height: 250px;
+	object-fit: cover;
+}
