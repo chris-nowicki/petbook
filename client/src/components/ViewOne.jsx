@@ -144,16 +144,19 @@ const ViewOne = () => {
 	};
 
 	const handleCommentDelete = (commentId) => {
-		console.log(commentId)
-		axios.put(`http://localhost:8000/api/posts/delete-comment`, {
-			id: post._id,
-			commentId: commentId
-		})
-		.then(res => {
-			let updateComments = comments.filter(comment => comment._id !== commentId)
-			setComments([...updateComments])
-		})
-	}
+		console.log(commentId);
+		axios
+			.put(`http://localhost:8000/api/posts/delete-comment`, {
+				id: post._id,
+				commentId: commentId,
+			})
+			.then((res) => {
+				let updateComments = comments.filter(
+					(comment) => comment._id !== commentId
+				);
+				setComments([...updateComments]);
+			});
+	};
 	return (
 		<div className="flex min-h-screen w-full flex-col p-6">
 			<div className="mb-1 flex w-full flex-row items-center justify-between">
@@ -166,29 +169,32 @@ const ViewOne = () => {
 						{month} {day}, {year}{" "}
 					</span>
 				</h3>
-				<div>
-					<button
-						className="mr-2 hover:text-orange-400"
-						onClick={() => {
-							document
-								.getElementById("updatePostContent")
-								.classList.toggle("hidden");
-							document
-								.getElementById("contentNoEdit")
-								.classList.toggle("hidden");
-							document.getElementById("updateComment").value = "";
-						}}
-					>
-						edit
-					</button>
-					|
-					<button
-						className="ml-2 mr-1 hover:text-orange-400"
-						onClick={handleDelete}
-					>
-						delete
-					</button>
-				</div>
+				{post.author_id === user._id && (
+					<div>
+						<button
+							className="mr-2 hover:text-orange-400"
+							onClick={() => {
+								document
+									.getElementById("updatePostContent")
+									.classList.toggle("hidden");
+								document
+									.getElementById("contentNoEdit")
+									.classList.toggle("hidden");
+								document.getElementById("updateComment").value =
+									"";
+							}}
+						>
+							edit
+						</button>
+						|
+						<button
+							className="ml-2 mr-1 hover:text-orange-400"
+							onClick={handleDelete}
+						>
+							delete
+						</button>
+					</div>
+				)}
 			</div>
 			<div className="flex w-full flex-col rounded bg-gray-200 p-4 shadow-md shadow-black/25">
 				{/* author content with hidden update */}
