@@ -11,13 +11,12 @@ const CreateCat = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		setShowFilter(false)
+		setShowFilter(false);
 		axios
 			.get("http://localhost:8000/api/users/getUser", {
 				withCredentials: true,
 			})
 			.then((res) => {
-				console.log(res.data);
 				setUser(res.data);
 			})
 			.catch((err) => {
@@ -66,17 +65,12 @@ const CreateCat = () => {
 				navigate("/dashboard/feed");
 			})
 			.catch((err) => {
-				console.log(err);
-				const errorResponse = err.res.data.errors;
-				const errorArr = [];
-				for (const key of Object.keys(errorResponse)) {
-					errorArr.push(errorResponse[key].message);
-				}
-				setErrors(errorArr);
+				console.log(err.response.data.errors.content);
+				setErrors(err.response.data.errors.content);
 			});
 	};
 	return (
-		<div className="flex w-full flex-col items-center h-screen">
+		<div className="flex h-screen w-full flex-col items-center">
 			<div className="mt-6 flex flex-col items-center rounded border border-black p-4 shadow-md shadow-black/25">
 				<img
 					className="animalPicture w-96 "
@@ -91,12 +85,6 @@ const CreateCat = () => {
 				</button>
 				<div className="getForm w-full items-center justify-center">
 					<form onSubmit={onSubmitHandler}>
-						{/* <label>
-							<h4>Add a caption:</h4>
-						</label> */}
-						{errors.map((err, index) => (
-							<p key={index}>{err}</p>
-						))}
 						<input type="hidden" value={picture} />
 						<textarea
 							rows="3"
@@ -106,9 +94,11 @@ const CreateCat = () => {
 							onChange={(e) => setCaption(e.target.value)}
 						/>
 						<div>
-							<p className="ml-2 text-sm text-blue-600">
-								8 characters required
-							</p>
+							{errors && (
+								<p className="ml-1 text-sm text-red-600">
+									{errors.message}
+								</p>
+							)}
 						</div>
 						<div className="flex flex-row justify-center">
 							<button

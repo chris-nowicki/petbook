@@ -62,13 +62,8 @@ const CreateDog = () => {
 				navigate("/dashboard/feed");
 			})
 			.catch((err) => {
-				console.log(err);
-				const errorResponse = err.response.data.errors;
-				const errorArr = [];
-				for (const key of Object.keys(errorResponse)) {
-					errorArr.push(errorResponse[key].message);
-				}
-				setErrors(errorArr);
+				console.log(err.response.data.errors.content);
+				setErrors(err.response.data.errors.content);
 			});
 	};
 	return (
@@ -90,10 +85,6 @@ const CreateDog = () => {
 					</button>
 					<div className="getForm w-full items-center justify-center">
 						<form c onSubmit={onSubmitHandler}>
-							{/* <label><h4>Add a caption</h4></label> */}
-							{errors.map((err, index) => (
-								<p key={index}>{err}</p>
-							))}
 							<input type="hidden" value={picture} />
 							<textarea
 								rows="3"
@@ -103,9 +94,11 @@ const CreateDog = () => {
 								placeholder="add a caption"
 							/>
 							<div>
-								<p className="ml-1 text-sm text-blue-600">
-									8 characters required
-								</p>
+								{errors && (
+									<p className="ml-1 text-sm text-red-600">
+										{errors.message}
+									</p>
+								)}
 							</div>
 							<div className="flex flex-row justify-center">
 								<button

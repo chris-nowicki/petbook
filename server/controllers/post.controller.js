@@ -2,6 +2,7 @@ const Post = require("../models/posts.model");
 
 module.exports = {
 	createPost: async (req, res) => {
+		console.log(req.body)
 		Post.create(req.body)
 			.then((post) => {
 				console.log(post);
@@ -9,7 +10,7 @@ module.exports = {
 			})
 			.catch((err) => {
 				console.log(err);
-				response.status(400).json(err);
+				res.status(400).json(err);
 			});
 	},
 
@@ -141,11 +142,11 @@ module.exports = {
 		});
 	},
 	deleteComment: async (req, res) => {
-		const { id, commentId} = req.body;
+		const { id, commentId } = req.body;
 
-		console.log('we get here')
-		console.log(id)
-		console.log(commentId)
+		console.log("we get here");
+		console.log(id);
+		console.log(commentId);
 		Post.findOneAndUpdate(
 			{ _id: id },
 			{

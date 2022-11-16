@@ -6,7 +6,7 @@ const PostSchema = new mongoose.Schema(
 			type: String,
 		},
 		authorName: {
-			type: String
+			type: String,
 		},
 		postImage: {
 			type: String,
@@ -18,9 +18,9 @@ const PostSchema = new mongoose.Schema(
 		},
 		content: {
 			type: String,
+			required: [true, "Caption is required and must be at least 8 characters"],
 			trim: true,
-			// required:[true, 'Requires content'],
-			// minlength:[8, 'Must be at least 8 characters']
+			minlength: [8, "Your caption must be at least 8 characters"],
 		},
 		likes: [
 			{
@@ -40,6 +40,11 @@ const PostSchema = new mongoose.Schema(
 				comment: {
 					type: String,
 					trim: true,
+					required: [true, "Comment is required"],
+					minlength: [
+						4,
+						"Your comment must be at least 4 characters",
+					],
 				},
 			},
 		],
