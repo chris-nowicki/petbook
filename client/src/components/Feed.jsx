@@ -36,11 +36,9 @@ function Feed() {
 	} else if (filter === "dog") {
 		filteredPosts = filteredPosts.filter((post) => post.species === "dog");
 	} else {
-		console.log(user._id);
 		filteredPosts = filteredPosts.filter(
 			(post) => post.author_id === user._id
 		);
-		console.log(filteredPosts);
 	}
 
 	return (
@@ -51,12 +49,14 @@ function Feed() {
 						{filteredPosts.map((post) => (
 							<Card
 								key={post._id}
+								postId={post._id}
 								authorName={post.authorName}
 								postDate={post.createdAt}
 								postImage={post.postImage}
 								postContent={post.content}
 								postComments={post.comments.length}
 								postLikes={post.likes.length}
+								userProps={user._id}
 							/>
 						))}
 					</div>

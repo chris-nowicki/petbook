@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Badge from "@mui/material/Badge";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -12,8 +12,27 @@ function Card({
 	postContent,
 	postComments,
 	postLikes,
-
+	userProps,
+	postId,
 }) {
+	const [clicked, setClicked] = useState(false)
+	
+	// check if user likes the post
+	const liked = axios.get("http://localhost:8000/api/posts/checkLiked", {
+		id: postId,
+		user_id: userProps
+	});
+
+	const handleLikes = () => {
+		console.log(postId)
+		axios.put('http://localhost:8000/api/posts/add-like', {id: postId, user_id: userProps })
+		.then(res => {
+			console.log(res.data)
+			setClicked(true)
+		})
+		.catch(err => console.log(err))
+	}
+	
 	// convert the date
 	//get date from when post was created at through the date props
 	let convertedDate = new Date(postDate);
@@ -59,7 +78,9 @@ function Card({
 								horizontal: "right",
 							}}
 						>
-							<ThumbUpIcon color="action" fontSize="large" />
+							<button onClick={() => handleLikes()}>
+								<ThumbUpIcon color={liked ? "primary" : "action"} fontSize="large" />
+							</button>
 						</Badge>
 					</div>
 				</div>

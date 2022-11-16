@@ -3,6 +3,7 @@ const { authenticate } = require("../config/jwt.config");
 
 module.exports = (app) => {
 	app.get("/api/posts", PostController.getAllPosts);
+	app.get("/api/posts/checkLiked", PostController.checkIfLiked);
 	app.post("/api/posts", PostController.createPost);
 	app.put("/api/posts/add-comment/:id", PostController.addComment);
 	app.put("/api/posts/add-like", PostController.addLike);

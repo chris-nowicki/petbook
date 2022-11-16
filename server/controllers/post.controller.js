@@ -48,6 +48,7 @@ module.exports = {
 
 	addLike: async (req, res) => {
 		const { id, user_id } = req.body;
+		console.log("we get here");
 		console.log(req.body);
 		Post.findOneAndUpdate(
 			{ _id: id },
@@ -65,10 +66,16 @@ module.exports = {
 			.then((updatePost) => res.json(updatePost))
 			.catch((err) => res.status(400).json(err));
 	},
-	getOne:(req, res)=>{
-		Post.findOne({_id:req.params.id})
-		.then(post=>
-			res.json(post))
-			.catch(err=>res.json(err))
+	getOne: (req, res) => {
+		Post.findOne({ _id: req.params.id })
+			.then((post) => res.json(post))
+			.catch((err) => res.json(err));
+	},
+	checkIfLiked: async (req, res) => {
+		const { id, user_id } = req.body;
+
+		Post.find({ _id: id, likes: { $elemMatch: { user_id: user_id } } })
+			.then((liked) => res.json(liked))
+			.catch((err) => console.log(err));
 	},
 };

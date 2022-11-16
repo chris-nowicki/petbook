@@ -19,7 +19,7 @@ function UserInfo(props) {
 				setUser(res.data);
 			})
 			.catch((err) => console.log(err));
-	}, []);
+	}, [setUser]);
 	console.log(user);
 
 	return (

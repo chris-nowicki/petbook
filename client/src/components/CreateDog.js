@@ -121,8 +121,4 @@ const CreateDog = () => {
             </div> */}
         </div>
 
-    )
-
-}
-
-export default CreateDog 
+export default CreateDog;
