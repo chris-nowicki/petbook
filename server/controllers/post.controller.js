@@ -116,7 +116,7 @@ module.exports = {
 		Post.deleteOne({_id:req.params.id})
 			.then(deleteConfirmation=>res.json(deleteConfirmation))
 			.catch(err=>res.json(err))
-	}
+	},
 
 	// keeping this in for database maintenance purposes
 	deleteLike: async (req, res) => {
