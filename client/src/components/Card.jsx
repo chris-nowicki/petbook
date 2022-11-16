@@ -5,12 +5,14 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import axios from "axios";
 
 function Card({
+
 	authorName,
 	postDate,
 	postImage,
 	postContent,
 	postComments,
 	postLikes,
+
 }) {
 	// convert the date
 	//get date from when post was created at through the date props
