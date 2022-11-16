@@ -25,7 +25,7 @@ module.exports = {
 	},
 
 	addComment: async (req, res) => {
-		const { id } = req.params
+		const { id } = req.params;
 		const { user_id, fname, lname, comment } = req.body;
 		console.log(req.body);
 		Post.findOneAndUpdate(
@@ -78,5 +78,23 @@ module.exports = {
 		Post.find({ _id: id, likes: { $elemMatch: { user_id: user_id } } })
 			.then((liked) => res.json(liked))
 			.catch((err) => console.log(err));
+	},
+	deleteLike: async (req, res) => {
+		const { id, user_id } = req.body;
+		Post.findOneAndUpdate(
+			{ _id: id },
+			{
+				$pull: {
+					likes: {
+						user_id: user_id,
+					},
+				},
+			},
+			{
+				new: true,
+			}
+		).then((like) => {
+			res.json(like);
+		});
 	},
 };

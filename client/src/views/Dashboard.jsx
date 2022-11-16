@@ -3,10 +3,10 @@ import MyContext from "../contexts/MyContext";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import UserInfo from "../components/UserInfo";
-import axios from 'axios'
+import axios from "axios";
 
 function Dashboard() {
-	const { setUser,loaded, setLoaded } = useContext(MyContext);
+	const { setUser, loaded, setLoaded } = useContext(MyContext);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -17,7 +17,7 @@ function Dashboard() {
 		) {
 			navigate("feed");
 		}
-			axios
+		axios
 			.get("http://localhost:8000/api/users/getUser", {
 				withCredentials: true,
 			})
@@ -39,8 +39,7 @@ function Dashboard() {
 			{loaded && (
 				<>
 					{/* main dashboard container */}
-
-					<div className="container mx-auto h-screen max-w-5xl shadow-lg shadow-black/25">
+					<div className="container mx-auto max-w-5xl shadow-lg shadow-black/25">
 						<Navbar />
 
 						{/* user bar and main dashboard viewing container */}
@@ -53,7 +52,6 @@ function Dashboard() {
 							{/* outlet for post feed, create post, edit post, and view post */}
 
 							<div className="flex h-full w-full flex-col bg-white">
-
 								<Outlet />
 							</div>
 							{/* end outlet*/}

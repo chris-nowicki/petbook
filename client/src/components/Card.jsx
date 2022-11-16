@@ -52,7 +52,7 @@ function Card({
 
 			{/* card for posts */}
 			<div className="mr-2 mt-2 flex w-80 flex-col rounded border border-black p-4 shadow-md shadow-black/25">
-				<a href={`/dashboard/view-one/${postId}`}>
+				<a href={`/dashboard/view-one/${postId}`} className='viewOne'>
 					<p className="mb-2 text-center text-sm">
 						<span className="text-orange-600">{authorName}</span>{" "}
 						posted on{" "}
@@ -65,14 +65,13 @@ function Card({
 					</div>
 					<p className="text-md mt-3 ml-1">{postContent}</p>
 				</a>
-
 				<div className="mt-6 flex w-full flex-row items-center justify-between">
 					<Badge badgeContent={postComments} color={"primary"}>
 						<ChatBubbleIcon color="action" fontSize="large" />
 					</Badge>
 					<div className="mr-3 flex flex-row items-center">
 						<Badge
-							badgeContent={postLikes}
+							
 							color={"primary"}
 							anchorOrigin={{
 								vertical: "top",
