@@ -49,23 +49,47 @@ module.exports = {
 
 	addLike: async (req, res) => {
 		const { id, user_id } = req.body;
-		console.log("we get here");
-		console.log(req.body);
-		Post.findOneAndUpdate(
-			{ _id: id },
-			{
-				$addToSet: {
-					likes: {
-						user_id: user_id,
+		const found = await Post.find({
+			_id: id,
+			likes: { $elemMatch: { user_id: user_id } },
+		})
+
+		console.log(found)
+
+		if (found.length === 0) {
+			console.log("we get here")
+			Post.findOneAndUpdate(
+				{ _id: id },
+				{
+					$addToSet: {
+						likes: {
+							user_id: user_id,
+						},
 					},
 				},
-			},
-			{
-				new: true,
-			}
-		)
-			.then((updatePost) => res.json(updatePost))
-			.catch((err) => res.status(400).json(err));
+				{
+					new: true,
+				}
+			)
+				.then((updatePost) => res.json({message: "added"}))
+				.catch((err) => res.status(400).json(err));
+		} else {
+			Post.findOneAndUpdate(
+				{ _id: id },
+				{
+					$pull: {
+						likes: {
+							user_id: user_id,
+						},
+					},
+				},
+				{
+					new: true,
+				}
+			).then((like) => {
+				res.json({ message: "removed" });
+			});
+		}
 	},
 	getOne: (req, res) => {
 		Post.findOne({ _id: req.params.id })

@@ -20,15 +20,20 @@ function Card({
 	let liked = likeProps.some((like) => like.user_id === userProps);
 
 	const handleLikes = () => {
+
 		axios
 			.put("http://localhost:8000/api/posts/add-like", {
 				id: postId,
 				user_id: userProps,
 			})
-			.then((res) => {
-				setClicked(true)
+			.then(res => {
+				if (res.data.message === "added") {
+					setClicked(true)
+				} else {
+					setClicked(false)
+				}
 			})
-			.catch((err) => console.log(err));
+	
 	};
 
 	// convert the date
