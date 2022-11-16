@@ -8,5 +8,6 @@ module.exports = (app) => {
 	app.put("/api/posts/add-comment/:id", PostController.addComment);
 	app.put("/api/posts/add-like", PostController.addLike);
 	app.get('/api/posts/:id', PostController.getOne);
-	
+	app.put("/api/posts/update-content/:id", PostController.updateContent);
+	app.delete("/api/posts/delete-post/:id", PostController.deletePost);
 };

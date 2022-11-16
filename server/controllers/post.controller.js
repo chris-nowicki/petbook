@@ -79,4 +79,14 @@ module.exports = {
 			.then((liked) => res.json(liked))
 			.catch((err) => console.log(err));
 	},
+	updateContent:(req,res)=>{
+		Post.findByIdAndUpdate({_id:req.params.id}, req.body,{new:true, runValidators:true})
+			.then(updatedContent=>res.json(updatedContent))
+			.catch(err=>res.status.json(err))
+	},
+	deletePost:(req,res)=>{
+		Post.deleteOne({_id:req.params.id})
+			.then(deleteConfirmation=>res.json(deleteConfirmation))
+			.catch(err=>res.json(err))
+	}
 };
