@@ -17,7 +17,7 @@ function Card({
 }) {
 	const [clicked, setClicked] = useState(false);
 
-	const liked = likeProps.some((like) => like.user_id === userProps);
+	let liked = likeProps.some((like) => like.user_id === userProps);
 
 	const handleLikes = () => {
 		axios
@@ -26,7 +26,7 @@ function Card({
 				user_id: userProps,
 			})
 			.then((res) => {
-				setClicked(true);
+				setClicked(true)
 			})
 			.catch((err) => console.log(err));
 	};
@@ -81,7 +81,7 @@ function Card({
 						>
 							<button onClick={() => handleLikes()}>
 								<ThumbUpIcon
-									color={clicked ? "primary" : "action"}
+									color={liked || clicked ? "primary" : "action"}
 									fontSize="large"
 								/>
 							</button>
