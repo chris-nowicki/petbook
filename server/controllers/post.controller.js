@@ -16,6 +16,7 @@ module.exports = {
 
 	getAllPosts: async (req, res) => {
 		Post.find({})
+			.sort({ createdAt: -1 })
 			.then((posts) => {
 				res.json(posts);
 			})
@@ -111,7 +112,7 @@ module.exports = {
 	},
 
 	updateContent: (req, res) => {
-		console.log(req.body)
+		console.log(req.body);
 		Post.findByIdAndUpdate({ _id: req.params.id }, req.body, {
 			runValidators: true,
 			new: true,

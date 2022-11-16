@@ -18,7 +18,10 @@ const PostSchema = new mongoose.Schema(
 		},
 		content: {
 			type: String,
-			required: [true, "Caption is required and must be at least 8 characters"],
+			required: [
+				true,
+				"Caption is required and must be at least 8 characters",
+			],
 			trim: true,
 			minlength: [8, "Your caption must be at least 8 characters"],
 		},

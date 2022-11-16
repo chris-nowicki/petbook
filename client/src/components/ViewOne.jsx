@@ -25,10 +25,12 @@ const ViewOne = () => {
 			.get(`http://localhost:8000/api/posts/${id}`)
 			.then((res) => {
 				setPost(res.data);
-				setComments(res.data.comments);
 				setLikes(res.data.likes);
 				setPageContent(res.data.content);
 				setAuthor_id(res.data.author_id);
+				let sortComments = res.data.comments
+				sortComments = sortComments.reverse()
+				setComments([...sortComments]);
 			})
 			.catch((err) => console.log(err));
 	}, []);
@@ -80,12 +82,11 @@ const ViewOne = () => {
 				document
 					.getElementById("contentNoEdit")
 					.classList.toggle("hidden");
-					setErrors([])
+				setErrors([]);
 			})
 			.catch((err) => {
 				console.log(err.response.data.errors.content);
 				setErrors(err.response.data.errors.content);
-				
 			}, []);
 	};
 
@@ -124,12 +125,14 @@ const ViewOne = () => {
 				comment: newComment,
 			})
 			.then((res) => {
-				setComments(res.data.comments);
+				let sortComments = res.data.comments
+				sortComments = sortComments.reverse()
+				setComments([...sortComments]);
 				let element = document.getElementById("addComment");
 				element.classList.toggle("hidden");
 				let element2 = document.getElementById("comment");
 				element2.value = "";
-				setErrors([])
+				setErrors([]);
 			})
 			.catch((err) => {
 				console.log(err.response.data.errors["comments.comment"]);
