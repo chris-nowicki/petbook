@@ -17,3 +17,8 @@ body {
     height: 180px;
 	object-fit: cover;
 }
+
+/* forces the form-select (drop-down menu) to have a black border color regardless of focus */
+.form-select:focus {
+    border-color: transparent;
+}

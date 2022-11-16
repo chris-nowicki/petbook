@@ -1,12 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import MyContext from "../contexts/MyContext";
 import { useNavigate } from "react-router-dom";
 
 const CreateCat = () => {
+	const { user, setUser } = useContext(MyContext);
 	const [caption, setCaption] = useState("");
 	const [picture, setPicture] = useState("");
 	const [errors, setErrors] = useState([]);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		// redirect /dashboard to /feed
+		axios
+			.get("http://localhost:8000/api/users/getUser", {
+				withCredentials: true,
+			})
+			.then((res) => {
+				console.log(res.data);
+				setUser(res.data);
+			})
+			.catch((err) => {
+				navigate("/dashboard/feed");
+			});
+
+		// eslint-disable-next-line
+	}, []);
 
 	useEffect(() => {
 		axios
@@ -18,7 +37,7 @@ const CreateCat = () => {
 				console.log(res.data);
 			})
 			.catch((err) => console.log(err));
-	}, [0]);
+	}, []);
 
 	const getCat = (e) => {
 		e.preventDefault();
@@ -28,8 +47,6 @@ const CreateCat = () => {
 			})
 			.then((res) => {
 				setPicture(res.data[0].url);
-				console.log(res.data);
-				console.log(res.data[0].url);
 			})
 			.catch((err) => console.log(err));
 	};
@@ -37,13 +54,16 @@ const CreateCat = () => {
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
 		axios
-			.post("http://localhost:8000/api/cats", {
-				picture,
-				caption,
+			.post("http://localhost:8000/api/posts", {
+				author_id: user._id,
+				authorName: `${user.firstName} ${user.lastName}`,
+				postImage: picture,
+				content: caption,
+				species: "cat",
 			})
 			.then((res) => {
 				console.log(res);
-				navigate("/");
+				navigate("/dashboard/feed");
 			})
 			.catch((err) => {
 				console.log(err);

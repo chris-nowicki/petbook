@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function Login() {
-  const { user, setUser, setLoaded } = useContext(MyContext);
+  const { user, setUser } = useContext(MyContext);
   const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
 
