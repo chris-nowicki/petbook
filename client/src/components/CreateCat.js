@@ -75,7 +75,7 @@ const CreateCat = () => {
 			});
 	};
 	return (
-		<div className="flex w-full flex-col items-center">
+		<div className="flex w-full flex-col items-center h-screen">
 			<div className="mt-6 flex flex-col items-center rounded border border-black p-4 shadow-md shadow-black/25">
 				<img
 					className="animalPicture w-96 "

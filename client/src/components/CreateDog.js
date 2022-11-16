@@ -31,7 +31,6 @@ const CreateDog = () => {
 			})
 			.then((res) => {
 				setPicture(res.data[0].url);
-				console.log(res.data);
 			})
 			.catch((err) => console.log(err));
 	}, [0]);
@@ -44,8 +43,6 @@ const CreateDog = () => {
 			})
 			.then((res) => {
 				setPicture(res.data[0].url);
-				console.log(res.data);
-				console.log(res.data[0].url);
 			})
 			.catch((err) => console.log(err));
 	};
@@ -61,7 +58,6 @@ const CreateDog = () => {
 				species: "dog",
 			})
 			.then((res) => {
-				console.log(res);
 				navigate("/dashboard/feed");
 			})
 			.catch((err) => {
@@ -77,7 +73,7 @@ const CreateDog = () => {
 	return (
 		<div className="App">
 			{/* margarita's styling */}
-			<div className="flex w-full flex-col items-center">
+			<div className="flex h-screen w-full flex-col items-center">
 				<div className="mt-6 flex flex-col items-center rounded border border-black p-4 shadow-md shadow-black/25">
 					<img
 						className="animalPicture"
@@ -91,7 +87,7 @@ const CreateDog = () => {
 					>
 						Get A Dog!
 					</button>
-					<div className="getForm items-center justify-center">
+					<div className="getForm w-full items-center justify-center">
 						<form c onSubmit={onSubmitHandler}>
 							{/* <label><h4>Add a caption</h4></label> */}
 							{errors.map((err, index) => (
@@ -106,8 +102,8 @@ const CreateDog = () => {
 								placeholder="add a caption"
 							/>
 							<div>
-								<p className="ml-1 text-sm ">
-									*8 characters required
+								<p className="ml-1 text-sm text-blue-600">
+									8 characters required
 								</p>
 							</div>
 							<div className="flex flex-row justify-center">
@@ -122,25 +118,6 @@ const CreateDog = () => {
 					</div>
 				</div>
 			</div>
-
-			{/* <div className='Card '>
-                <img className='animaPicture' src ={picture} alt= 'A cute and snuggly pet!'/>
-            </div>
-            <button onClick={getDog}>Get A Dog!</button>
-            <div className='getForm'>
-                <form onSubmit={onSubmitHandler}>
-                    <label><h4>Add a caption</h4></label>
-                    {errors.map((err,index)=><p key={index}>{err}</p>)}
-                    <input type = 'hidden' value ={picture}/>
-                    <input type = 'text' onChange={(e)=>setCaption(e.target.value)}/>
-                    <div>
-                        *8 characters required
-                    </div>
-                    <div>
-                        <button type ='submit'>Save This Puppers!</button>
-                    </div>
-                </form>
-            </div> */}
 		</div>
 	);
 };
