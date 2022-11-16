@@ -49,23 +49,50 @@ module.exports = {
 
 	addLike: async (req, res) => {
 		const { id, user_id } = req.body;
-		console.log("we get here");
-		console.log(req.body);
-		Post.findOneAndUpdate(
-			{ _id: id },
-			{
-				$addToSet: {
-					likes: {
-						user_id: user_id,
+
+		// check if the user has already liked the post
+		const found = await Post.find({
+			_id: id,
+			likes: { $elemMatch: { user_id: user_id } },
+		});
+
+		// if length of result is 0 the user was not found
+		// add the like to the database
+		if (found.length === 0) {
+			Post.findOneAndUpdate(
+				{ _id: id },
+				{
+					$addToSet: {
+						likes: {
+							user_id: user_id,
+						},
 					},
 				},
-			},
-			{
-				new: true,
-			}
-		)
-			.then((updatePost) => res.json(updatePost))
-			.catch((err) => res.status(400).json(err));
+				{
+					new: true,
+				}
+			)
+				.then((updatePost) => res.json({ message: "added" }))
+				.catch((err) => res.status(400).json(err));
+		} else {
+			// if user is found as already liking the post then
+			// delete the like
+			Post.findOneAndUpdate(
+				{ _id: id },
+				{
+					$pull: {
+						likes: {
+							user_id: user_id,
+						},
+					},
+				},
+				{
+					new: true,
+				}
+			).then((like) => {
+				res.json({ message: "removed" });
+			});
+		}
 	},
 	getOne: (req, res) => {
 		Post.findOne({ _id: req.params.id })
@@ -79,6 +106,8 @@ module.exports = {
 			.then((liked) => res.json(liked))
 			.catch((err) => console.log(err));
 	},
+
+	// keeping this in for database maintenance purposes
 	deleteLike: async (req, res) => {
 		const { id, user_id } = req.body;
 		Post.findOneAndUpdate(
