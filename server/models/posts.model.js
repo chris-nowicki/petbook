@@ -19,6 +19,8 @@ const PostSchema = new mongoose.Schema(
 		content: {
 			type: String,
 			trim: true,
+			// required:[true, 'Requires content'],
+			// minlength:[8, 'Must be at least 8 characters']
 		},
 		likes: [
 			{

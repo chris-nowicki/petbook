@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, Navigate } from "react-router-dom";
 import MyContext from "../contexts/MyContext";
 
 const ViewOne = () => {
@@ -10,7 +10,12 @@ const ViewOne = () => {
 	const [comments, setComments] = useState([]);
 	const [newComment, setNewComment] = useState("");
 	const [likes, setLikes] = useState([]);
+	const [pageContent,setPageContent] = useState("")
+	const [ author_id, setAuthor_id] = useState("")
 	const { user } = useContext(MyContext);
+	const navigate = useNavigate()
+	
+
 
 	useEffect(() => {
 		axios
@@ -19,9 +24,44 @@ const ViewOne = () => {
 				setPost(res.data);
 				setComments(res.data.comments);
 				setLikes(res.data.likes);
+				setPageContent(res.data.content)
+				setAuthor_id(res.data.author_id)
 			})
 			.catch((err) => console.log(err));
 	}, []);
+
+	//Add the visible className after :
+	const visible =user._id!= author_id ? "invisible" : ""
+		
+	
+	const handleUpdate = (e) => {
+		e.preventDefault();
+		axios.put(`http://localhost:8000/api/posts/update-content/${id}`, {
+			content:pageContent
+		})
+			.then(res => {
+				console.log(res)
+				setPageContent(res.data.content)
+			})
+			.catch(err => {
+				console.log(err)
+				const errorResponse = err.response.data.errors;
+				const errorArr = [];
+				for (const key of Object.keys(errorResponse)) {
+					errorArr.push(errorResponse[key].message)
+				}
+				setErrors(errorArr)
+			}, [])
+	}
+
+	const handleDelete = (_id) => {
+		axios.delete(`http://localhost:8000/api/posts/delete-post/${id}`)
+			.then((res) => {
+				console.log(res)
+				navigate("/dashboard/feed")
+			})
+			.catch(err => console.log(err))
+	}
 
 	// convert the date
 	//get date from when post was created at through the date props
@@ -58,13 +98,15 @@ const ViewOne = () => {
 					errorArr.push(errorResponse[key].message);
 				}
 			}, []);
-	};
+
+
+	}
 	return (
 		<div>
 			<h3>Posted by: {post.authorName}</h3>
 			<h4>Posted on: {month} {day}, {year}</h4>
-			<img src={post.postImage}></img>
-			{post.content}
+			<img src={post.postImage} alt ="Post image"></img>
+			{pageContent}
 			<p>Number of likes: {likes.length}</p>
 			<h4>Comments</h4>
 			{comments.map((comment) => (
@@ -89,6 +131,17 @@ const ViewOne = () => {
 					Submit
 				</button>
 			</form>
+			<div className={visible}>
+				<form onSubmit={handleUpdate}>
+					{errors.map((err, index) => (
+						<p key={index}>{err}</p>
+					))}
+					<label>Update Post Content: </label>
+					<input type="text-area" className="border border-black" onChange ={(e)=>setPageContent(e.target.value)} />
+					<button className="w-half border border-black bg-black py-3 text-xl text-white shadow-md shadow-black/25">Update</button>
+				</form>
+				<button onClick={handleDelete} className="w-half border border-black bg-black py-3 text-xl text-white shadow-md shadow-black/25">Delete Post</button>
+			</div>
 		</div>
 	);
 };
