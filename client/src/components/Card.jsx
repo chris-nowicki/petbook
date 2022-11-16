@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Badge from "@mui/material/Badge";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import axios from "axios";
 
 function Card({
-
 	authorName,
 	postDate,
 	postImage,
@@ -14,25 +13,24 @@ function Card({
 	postLikes,
 	userProps,
 	postId,
+	likeProps,
 }) {
-	const [clicked, setClicked] = useState(false)
-	
-	// check if user likes the post
-	const liked = axios.get("http://localhost:8000/api/posts/checkLiked", {
-		id: postId,
-		user_id: userProps
-	});
+	const [clicked, setClicked] = useState(false);
+
+	const liked = likeProps.some((like) => like.user_id === userProps);
 
 	const handleLikes = () => {
-		console.log(postId)
-		axios.put('http://localhost:8000/api/posts/add-like', {id: postId, user_id: userProps })
-		.then(res => {
-			console.log(res.data)
-			setClicked(true)
-		})
-		.catch(err => console.log(err))
-	}
-	
+		axios
+			.put("http://localhost:8000/api/posts/add-like", {
+				id: postId,
+				user_id: userProps,
+			})
+			.then((res) => {
+				setClicked(true);
+			})
+			.catch((err) => console.log(err));
+	};
+
 	// convert the date
 	//get date from when post was created at through the date props
 	let convertedDate = new Date(postDate);
@@ -54,17 +52,20 @@ function Card({
 
 			{/* card for posts */}
 			<div className="mr-2 mt-2 flex w-80 flex-col rounded border border-black p-4 shadow-md shadow-black/25">
-				<p className="mb-2 text-center text-sm">
-					<span className="text-orange-600">{authorName}</span> posted
-					on{" "}
-					<span className="text-orange-600">
-						{month} {day}, {year}
-					</span>
-				</p>
-				<div className="postCardImage flex flex-row justify-center pr-4">
-					<img src={postImage} alt="post" />
-				</div>
-				<p className="text-md mt-3 ml-1">{postContent}</p>
+				<a href={`/dashboard/view-one/${postId}`}>
+					<p className="mb-2 text-center text-sm">
+						<span className="text-orange-600">{authorName}</span>{" "}
+						posted on{" "}
+						<span className="text-orange-600">
+							{month} {day}, {year}
+						</span>
+					</p>
+					<div className="postCardImage flex flex-row justify-center pr-4">
+						<img src={postImage} alt="post" />
+					</div>
+					<p className="text-md mt-3 ml-1">{postContent}</p>
+				</a>
+
 				<div className="mt-6 flex w-full flex-row items-center justify-between">
 					<Badge badgeContent={postComments} color={"primary"}>
 						<ChatBubbleIcon color="action" fontSize="large" />
@@ -79,7 +80,10 @@ function Card({
 							}}
 						>
 							<button onClick={() => handleLikes()}>
-								<ThumbUpIcon color={liked ? "primary" : "action"} fontSize="large" />
+								<ThumbUpIcon
+									color={clicked ? "primary" : "action"}
+									fontSize="large"
+								/>
 							</button>
 						</Badge>
 					</div>

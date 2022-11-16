@@ -47,17 +47,19 @@ function Feed() {
 				<>
 					<div className="mt-6 flex flex-row flex-wrap justify-center">
 						{filteredPosts.map((post) => (
-							<Card
-								key={post._id}
-								postId={post._id}
-								authorName={post.authorName}
-								postDate={post.createdAt}
-								postImage={post.postImage}
-								postContent={post.content}
-								postComments={post.comments.length}
-								postLikes={post.likes.length}
-								userProps={user._id}
-							/>
+						
+								<Card
+									postId={post._id}
+									authorName={post.authorName}
+									postDate={post.createdAt}
+									postImage={post.postImage}
+									postContent={post.content}
+									postComments={post.comments.length}
+									postLikes={post.likes.length}
+									userProps={user._id}
+									likeProps={post.likes}
+								/>
+						
 						))}
 					</div>
 				</>

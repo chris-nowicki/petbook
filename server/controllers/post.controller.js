@@ -25,7 +25,8 @@ module.exports = {
 	},
 
 	addComment: async (req, res) => {
-		const { id, user_id, fname, lname, comment } = req.body;
+		const { id } = req.params
+		const { user_id, fname, lname, comment } = req.body;
 		console.log(req.body);
 		Post.findOneAndUpdate(
 			{ _id: id },

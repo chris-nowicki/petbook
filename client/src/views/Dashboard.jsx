@@ -22,7 +22,6 @@ function Dashboard() {
 				withCredentials: true,
 			})
 			.then((res) => {
-				console.log(res.data)
 				setUser(res.data);
 				setLoaded(true);
 			})

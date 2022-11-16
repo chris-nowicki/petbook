@@ -9,12 +9,10 @@ import io from "socket.io-client";
 import LandingPage from "./components/LandingPage";
 import Login from "./components/Login";
 
-import Register from "./components/Register"
-import Feed from './components/Feed'
-import CreatePost from './components/CreatePost'
+import Register from "./components/Register";
+import Feed from "./components/Feed";
+import CreatePost from "./components/CreatePost";
 import ViewOne from "./components/ViewOne";
-
-
 
 function App() {
 	const [socket] = useState(() => io(":8001"));
@@ -53,17 +51,16 @@ function App() {
 								index
 								element={<CreateCat />}
 							/>
-							<Route path="create-dog" 
+							<Route
+								path="create-dog"
 								index
-								element={<CreateDog />} />
+								element={<CreateDog />}
+							/>
+							<Route
+								path="/dashboard/view-one/:id"
+								element={<ViewOne />}
+							/>
 						</Route>
-
-            <Route path = "/view-one/:id" element ={<ViewOne/>}/>
-            <Route path="/chat" element={<Chat socket={socket} />}/>
-            <Route path='/createcat' element={<CreateCat />} />
-            <Route path='/createdog' element={<CreateDog />} />
-
-
 						{/* END DASHBOARD ROUTE SECTION */}
 					</Routes>
 				</Router>
