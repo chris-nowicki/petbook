@@ -45,7 +45,7 @@ function Dashboard() {
 						{/* user bar and main dashboard viewing container */}
 						<div className="flex h-full w-full flex-row">
 							{/* user info container */}
-							<div className="flex w-48 flex-col bg-gray-200">
+							<div className="flex w-52 flex-col bg-gray-200">
 								<UserInfo />
 							</div>
 
