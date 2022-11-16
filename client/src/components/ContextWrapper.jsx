@@ -6,6 +6,7 @@ function ContextWrapper({ children }) {
 	const [user, setUser] = useState(null);
 	const [errors, setErrors] = useState([]);
 	const [filter, setFilter] = useState("allPosts")
+	const [showFilter, setShowFilter] = useState(true)
 	return (
 		<MyContext.Provider
 			value={{
@@ -16,7 +17,9 @@ function ContextWrapper({ children }) {
 				errors,
 				setErrors,
 				filter,
-				setFilter
+				setFilter,
+				showFilter,
+				setShowFilter
 			}}
 		>
 			{children}

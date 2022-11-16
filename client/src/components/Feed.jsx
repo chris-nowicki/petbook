@@ -2,14 +2,14 @@ import React, { useEffect, useContext, useState } from "react";
 import MyContext from "../contexts/MyContext";
 import Card from "./Card";
 import axios from "axios";
-import { Alert } from "@mui/material";
 
 function Feed() {
-	const { user, filter } = useContext(MyContext);
+	const { user, filter, setShowFilter } = useContext(MyContext);
 	const [posts, setPosts] = useState([]);
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
+		setShowFilter(true)
 		axios
 			.get("http://localhost:8000/api/posts", {
 				withCredentials: true,

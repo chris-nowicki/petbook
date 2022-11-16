@@ -2,26 +2,23 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./views/Dashboard";
 import ContextWrapper from "./components/ContextWrapper";
-import Chat from "./components/Chat";
 import CreateCat from "./components/CreateCat";
 import CreateDog from "./components/CreateDog";
-import io from "socket.io-client";
 import LandingPage from "./components/LandingPage";
 import Login from "./components/Login";
-
 import Register from "./components/Register";
 import Feed from "./components/Feed";
 import CreatePost from "./components/CreatePost";
 import ViewOne from "./components/ViewOne";
 
 function App() {
-	const [socket] = useState(() => io(":8001"));
+	// const [socket] = useState(() => io(":8001"));
 
-	useEffect(() => {
-		console.log("Effect running");
-		socket.on("Welcome", (data) => console.log(data));
-		return () => socket.disconnect(true);
-	}, []);
+	// useEffect(() => {
+	// 	console.log("Effect running");
+	// 	socket.on("Welcome", (data) => console.log(data));
+	// 	return () => socket.disconnect(true);
+	// }, []);
 
 	return (
 		<div>

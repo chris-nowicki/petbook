@@ -4,13 +4,14 @@ import MyContext from "../contexts/MyContext";
 import { useNavigate } from "react-router-dom";
 
 const CreateCat = () => {
-	const { user, setUser } = useContext(MyContext);
+	const { user, setUser, setShowFilter } = useContext(MyContext);
 	const [caption, setCaption] = useState("");
 	const [picture, setPicture] = useState("");
 	const [errors, setErrors] = useState([]);
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		setShowFilter(false)
 		axios
 			.get("http://localhost:8000/api/users/getUser", {
 				withCredentials: true,

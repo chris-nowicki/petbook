@@ -8,9 +8,10 @@ const CreateDog = () => {
 	const [picture, setPicture] = useState("");
 	const [errors, setErrors] = useState([]);
 	const navigate = useNavigate();
-	const { user, setUser } = useContext(MyContext);
+	const { user, setUser, setShowFilter } = useContext(MyContext);
 
 	useEffect(() => {
+		setShowFilter(false);
 		axios
 			.get("http://localhost:8000/api/users/getUser", {
 				withCredentials: true,

@@ -6,7 +6,7 @@ import axios from "axios";
 import MyContext from "../contexts/MyContext";
 
 function UserInfo(props) {
-	const { user, setUser, setFilter } = useContext(MyContext);
+	const { user, setUser, setFilter, showFilter } = useContext(MyContext);
 	// const {user,setUser}=props
 
 	useEffect(() => {
@@ -20,7 +20,6 @@ function UserInfo(props) {
 			})
 			.catch((err) => console.log(err));
 	}, [setUser]);
-	console.log(user);
 
 	return (
 		<div className="flex w-full flex-col items-center p-4">
@@ -32,24 +31,24 @@ function UserInfo(props) {
 				{user.firstName} {user.lastName}
 			</p>
 
-			{/* feed filter */}
-			<div className="mt-6 flex flex-col items-center border border-orange-400 rounded p-2 shadow shadow-black/25">
-				<h1 className="text-lg">Feed Filter</h1>
-				<select
-					name="filters"
-					id="feed-filter"
-					className="text-md form-select mt-2 rounded-md border border-black shadow shadow-black/25 focus:outline-none
+			{showFilter && (
+				<div className="mt-6 flex flex-col items-center rounded border border-orange-400 p-2 shadow shadow-black/25">
+					<h1 className="text-lg">Feed Filter</h1>
+					<select
+						name="filters"
+						id="feed-filter"
+						className="text-md form-select mt-2 rounded-md border border-black shadow shadow-black/25 focus:outline-none
 							focus:ring-1 focus:ring-black"
-					defaultValue="allPosts"
-					onChange={(e) => setFilter(e.target.value)}
-				>
-					<option value="allPosts">All Posts</option>
-					<option value="myPosts">My Posts</option>
-					<option value="cat">Cats</option>
-					<option value="dog">Dogs</option>
-				</select>
-			</div>
-			{/* feed filter end */}
+						defaultValue="allPosts"
+						onChange={(e) => setFilter(e.target.value)}
+					>
+						<option value="allPosts">All Posts</option>
+						<option value="myPosts">My Posts</option>
+						<option value="cat">Cats</option>
+						<option value="dog">Dogs</option>
+					</select>
+				</div>
+			)}
 		</div>
 	);
 }

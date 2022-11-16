@@ -12,12 +12,13 @@ const ViewOne = () => {
 	const [likes, setLikes] = useState([]);
 	const [pageContent,setPageContent] = useState("")
 	const [ author_id, setAuthor_id] = useState("")
-	const { user } = useContext(MyContext);
+	const { user, setShowFilter } = useContext(MyContext);
 	const navigate = useNavigate()
 	
 
 
 	useEffect(() => {
+		setShowFilter(false)
 		axios
 			.get(`http://localhost:8000/api/posts/${id}`)
 			.then((res) => {
