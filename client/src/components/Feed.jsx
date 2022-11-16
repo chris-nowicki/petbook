@@ -49,6 +49,7 @@ function Feed() {
 						{filteredPosts.map((post) => (
 						
 								<Card
+									key={post._id}
 									postId={post._id}
 									authorName={post.authorName}
 									postDate={post.createdAt}
