@@ -10,7 +10,9 @@ const CreatePost = () => {
             <Link to={"createdog"}>
                 <button className='w-32 bg-stone-300 px-4 py-2 my-3 rounded'>Dog</button>
             </Link>
+
             <Link to={"/dashboard/create-cat"}>
+
                 <button className='w-32 bg-stone-300 px-4 py-2 rounded' rounded>Cat</button>
             </Link>
         </div>
