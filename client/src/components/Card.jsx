@@ -62,7 +62,7 @@ function Card({
 				<a href={`/dashboard/view-one/${postId}`} className="viewOne">
 					<p className="mb-2 text-center text-sm">
 						<span className="text-orange-600">{authorName}</span>{" "}
-						posted on
+						posted on{" "}
 						{/* data of post */}
 						<span className="text-orange-600">
 							{month} {day}, {year}

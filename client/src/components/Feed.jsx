@@ -42,7 +42,7 @@ function Feed() {
 	}
 
 	return (
-		<div className="flex w-full flex-col items-center">
+		<div className="flex w-full flex-col items-center min-h-screen pb-24">
 			{loaded && (
 				<>
 					<div className="mt-6 flex flex-row flex-wrap justify-center">

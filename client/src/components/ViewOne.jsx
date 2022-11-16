@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate, Link, Navigate } from "react-router-dom";
 import MyContext from "../contexts/MyContext";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
 const ViewOne = () => {
 	const [post, setPost] = useState([]);
@@ -14,7 +15,7 @@ const ViewOne = () => {
 	const [pageContent, setPageContent] = useState("");
 	const [author_id, setAuthor_id] = useState("");
 	const { user, setShowFilter } = useContext(MyContext);
-	const [clicked, setClicked] = useState(false)
+	const [clicked, setClicked] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -47,16 +48,17 @@ const ViewOne = () => {
 				// set clicked to true changes the color of the like button from gray to blue
 				if (res.data.message === "added") {
 					setClicked(true);
-					setLikes([...likes, {user_id: user._id}])
+					setLikes([...likes, { user_id: user._id }]);
 				} else {
 					// if response from the database is not added then the like was deleted
 					// set clicked to false changes the color of the like button from blue to gray
 					setClicked(false);
-					let updatedLikes = [...likes]
-					updatedLikes = updatedLikes.filter(like => like.user_id !== user._id)
-					setLikes([...updatedLikes])
+					let updatedLikes = [...likes];
+					updatedLikes = updatedLikes.filter(
+						(like) => like.user_id !== user._id
+					);
+					setLikes([...updatedLikes]);
 				}
-				
 			});
 	};
 
@@ -72,6 +74,12 @@ const ViewOne = () => {
 			.then((res) => {
 				console.log(res);
 				setPageContent(res.data.content);
+				document
+					.getElementById("updatePostContent")
+					.classList.toggle("hidden");
+				document
+					.getElementById("contentNoEdit")
+					.classList.toggle("hidden");
 			})
 			.catch((err) => {
 				console.log(err);
@@ -120,6 +128,10 @@ const ViewOne = () => {
 			})
 			.then((res) => {
 				setComments(res.data.comments);
+				let element = document.getElementById("addComment");
+				element.classList.toggle("hidden");
+				let element2 = document.getElementById("comment");
+				element2.value = "";
 			})
 			.catch((err) => {
 				console.log(err);
@@ -130,8 +142,20 @@ const ViewOne = () => {
 				}
 			}, []);
 	};
+
+	const handleCommentDelete = (commentId) => {
+		console.log(commentId)
+		axios.put(`http://localhost:8000/api/posts/delete-comment`, {
+			id: post._id,
+			commentId: commentId
+		})
+		.then(res => {
+			let updateComments = comments.filter(comment => comment._id !== commentId)
+			setComments([...updateComments])
+		})
+	}
 	return (
-		<div className="flex h-screen w-full flex-col p-6">
+		<div className="flex min-h-screen w-full flex-col p-6">
 			<div className="mb-1 flex w-full flex-row items-center justify-between">
 				<h3>
 					<span className="ml-1 text-orange-400">
@@ -143,7 +167,20 @@ const ViewOne = () => {
 					</span>
 				</h3>
 				<div>
-					<button className="mr-2 hover:text-orange-400">edit</button>
+					<button
+						className="mr-2 hover:text-orange-400"
+						onClick={() => {
+							document
+								.getElementById("updatePostContent")
+								.classList.toggle("hidden");
+							document
+								.getElementById("contentNoEdit")
+								.classList.toggle("hidden");
+							document.getElementById("updateComment").value = "";
+						}}
+					>
+						edit
+					</button>
 					|
 					<button
 						className="ml-2 mr-1 hover:text-orange-400"
@@ -154,64 +191,145 @@ const ViewOne = () => {
 				</div>
 			</div>
 			<div className="flex w-full flex-col rounded bg-gray-200 p-4 shadow-md shadow-black/25">
-				<p className="ml-1 mb-4 text-lg">{pageContent}</p>
+				{/* author content with hidden update */}
+
+				<form onSubmit={handleUpdate}>
+					<div
+						id="updatePostContent"
+						className="mb-4 flex hidden flex-row items-center"
+					>
+						<textarea
+							rows={2}
+							name="content"
+							id="updateContent"
+							className="w-3/4 rounded-md border-gray-300 text-base shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+							defaultValue={pageContent}
+							onChange={(e) => setPageContent(e.target.value)}
+						/>
+						<button className="ml-10 w-1/4 rounded bg-orange-400 py-2 text-xl text-white shadow-md shadow-black/25">
+							Update
+						</button>
+					</div>
+				</form>
+				<p id="contentNoEdit" className="ml-1 mb-4 text-lg">
+					{pageContent}
+				</p>
 
 				<img
 					src={post.postImage}
 					alt="Post image"
-					className="rounded"
+					className="viewOnePicture rounded"
 				/>
-				<div className="mt-2 flex w-full flex-row items-center justify-end">
-					<p className="mt-2 mr-1 font-bold text-orange-400">
-						{likes.length}
-					</p>{" "}
-					<button className="mx-1" onClick={() => handleLikes()}>
-						<ThumbUpIcon
-							color={liked || clicked ? "primary" : "action"}
-							fontSize="large"
-						/>
+				<div className="mt-2 flex w-full flex-row items-center justify-between">
+					<button
+						className="mx-1 rounded px-2 py-2 hover:bg-gray-300"
+						onClick={() => {
+							let element = document.getElementById("addComment");
+							element.classList.toggle("hidden");
+						}}
+					>
+						<ChatBubbleIcon color="action" fontSize="medium" />
+						<span className="ml-1">comment</span>
 					</button>
+
+					<div className="flex flex-row items-center">
+						<p className="mt-2 font-bold text-orange-400">
+							{likes.length}
+						</p>{" "}
+						<button className="mx-2" onClick={() => handleLikes()}>
+							<ThumbUpIcon
+								color={liked || clicked ? "primary" : "action"}
+								fontSize="large"
+							/>
+						</button>
+					</div>
 				</div>
 			</div>
-			<h4>Comments</h4>
-			{comments.map((comment) => (
-				<>
-					<div key={comment._id}>
-						<h3>{comment.userName}</h3>
-						<p className="mt-3">{comment.comment}</p>
-					</div>
-				</>
-			))}
-
+			{/* add comment */}
 			<form onSubmit={handleComment}>
-				{errors.map((err, index) => (
-					<p key={index}>{err}</p>
-				))}
-				<label>Post a comment: </label>
-				<input
-					type="text-area"
-					className="border border-black"
-					onChange={(e) => setNewComment(e.target.value)}
-				/>
-				<button className=" w-half border border-black bg-black py-3 text-xl text-white shadow-md shadow-black/25">
-					Submit
-				</button>
+				<div
+					id="addComment"
+					className="mt-3 hidden rounded bg-orange-300 p-6 transition-all ease-in-out"
+				>
+					<label
+						htmlFor="comment"
+						className="block text-lg font-medium"
+					>
+						Add your comment:
+					</label>
+					<div className="mt-1">
+						<textarea
+							rows={2}
+							name="comment"
+							id="comment"
+							className=" block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+							defaultValue={""}
+							onChange={(e) => setNewComment(e.target.value)}
+						/>
+					</div>
+					<div className="flex w-full flex-row">
+						<button className=" mt-3 w-full border-black bg-orange-400 py-2 text-xl text-white shadow-md shadow-black/25">
+							Submit
+						</button>
+					</div>
+				</div>
 			</form>
-			<div className={visible}>
-				<form onSubmit={handleUpdate}>
-					{errors.map((err, index) => (
-						<p key={index}>{err}</p>
-					))}
-					<label>Update Post Content: </label>
-					<input
-						type="text-area"
-						className="border border-black"
-						onChange={(e) => setPageContent(e.target.value)}
-					/>
-					<button className="w-half border border-black bg-black py-3 text-xl text-white shadow-md shadow-black/25">
-						Update
-					</button>
-				</form>
+			{/* end add comment */}
+			<div className="mt-4 flex flex-col shadow-sm shadow-black/25">
+				<h4 className="w-full rounded-t border-b bg-orange-400 text-center text-lg font-bold text-white">
+					Comments
+				</h4>
+				{comments.map((comment, index) => (
+					<>
+						{index % 2 !== 1 ? (
+							<div
+								key={comment._id}
+								className="flex w-full flex-col justify-center rounded border-b bg-slate-50 pb-2 pl-2"
+							>
+								<h3 className="text-md mt-2 text-orange-400">
+									{comment.userName}
+								</h3>
+								<div className="flex w-full flex-row items-center justify-between">
+									<p>{comment.comment}</p>
+									{(post.author_id === user._id ||
+										comment.user_id === user._id) && (
+										<button
+											className="relative top-0 right-0 mx-2 -translate-y-1/2"
+											onClick={() =>
+												handleCommentDelete(comment._id)
+											}
+										>
+											delete
+										</button>
+									)}
+								</div>
+							</div>
+						) : (
+							<div
+								key={comment._id}
+								className="flex w-full flex-col justify-center rounded border-b pb-2 pl-2"
+							>
+								<h3 className="text-md mt-2 text-orange-400">
+									{comment.userName}
+								</h3>
+								<div className="flex w-full flex-row items-center justify-between">
+									<p>{comment.comment}</p>
+									{(post.author_id === user._id ||
+										comment.user_id === user._id) && (
+										<button
+											className="relative top-0 right-0 mx-2 -translate-y-1/2"
+											onClick={() =>
+												handleCommentDelete(comment._id)
+											}
+										>
+											delete
+										</button>
+									)}
+								</div>
+							</div>
+						)}
+					</>
+				))}
 			</div>
 		</div>
 	);
