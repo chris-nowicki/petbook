@@ -11,6 +11,7 @@ import Login from "./components/Login";
 import Register from "./components/Register"
 import Feed from './components/Feed'
 import CreatePost from './components/CreatePost'
+import ViewOne from "./components/ViewOne";
 
 
 function App() {
@@ -52,7 +53,7 @@ function App() {
 								element={<EditPost />}
 							/> */}
 						</Route>
-            
+            <Route path = "/view-one/:id" element ={<ViewOne/>}/>
             <Route path="/chat" element={<Chat socket={socket} />}/>
             <Route path='/createcat' element={<CreateCat />} />
             <Route path='/createdog' element={<CreateDog />} />

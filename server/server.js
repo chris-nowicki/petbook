@@ -34,32 +34,32 @@ const io= socket(server,{
 });
 
 
-io.on("connection", (socket) =>{     
-    console.log('socket id:' + socket.id);
-    socket.on("event_from_client", data =>{
-            socket.broadcast.emit("event_to_all_other_clients", data)
-            console.log("Nice to meet you")
-            socket.emit("Heya")
-        })
-    })
+// io.on("connection", (socket) =>{     
+//     console.log('socket id:' + socket.id);
+//     socket.on("event_from_client", data =>{
+//             socket.broadcast.emit("event_to_all_other_clients", data)
+//             console.log("Nice to meet you")
+//             socket.emit("Heya")
+//         })
+//     })
     
-    // const socketIO = require('socket.io')(http,{     second try
-    //     cors:{
-    //         origin: 'http://localhost:3000'
-    //     }
-    // });
+//     const socketIO = require('socket.io')(http,{     second try
+//         cors:{
+//             origin: 'http://localhost:3000'
+//         }
+//     });
 
-    // socketIO.on('connection', (socket)=>{        second try
-    //     console.log(`${socket.id} connected`)
-    //     socket.on('disconnect', ()=>{
-    //         console.log(`${socket.id} disconnected`)
-    //     })
-    // })
+//     socketIO.on('connection', (socket)=>{        second try
+//         console.log(`${socket.id} connected`)
+//         socket.on('disconnect', ()=>{
+//             console.log(`${socket.id} disconnected`)
+//         })
+//     })
 
-    app.get('/api', (req, res)=>{
-    res.json({
-        message: 'Hello World'
-    })
-})
+//     app.get('/api', (req, res)=>{
+//     res.json({
+//         message: 'Hello World'
+//     })
+// })
 
 app.listen(port, () => console.log(`Listening on port: ${port}`));

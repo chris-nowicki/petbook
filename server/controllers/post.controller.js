@@ -65,4 +65,10 @@ module.exports = {
 			.then((updatePost) => res.json(updatePost))
 			.catch((err) => res.status(400).json(err));
 	},
+	getOne:(req, res)=>{
+		Post.findOne({_id:req.params.id})
+		.then(post=>
+			res.json(post))
+			.catch(err=>res.json(err))
+	},
 };

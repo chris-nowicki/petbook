@@ -11,6 +11,7 @@ function Card({
     postContent,
     postComments,
     postLikes,
+	postLink
 }) {
 
 	// convert the date

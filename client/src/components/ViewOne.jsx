@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import Card from "./Card";
+// import MyContext from "../contexts/MyContext";
 //import { formatMuiErrorMessage } from '@mui/utils'
 
 const ViewOne = () => {
@@ -10,8 +10,9 @@ const ViewOne = () => {
 	const [errors, setErrors] = useState([]);
 	const [comments, setComments] = useState([]);
 	const navigate = useNavigate();
-	const [user, setUser] = useState({});
 	const [newComment, setNewComment] = useState("");
+	const [likes, setLikes] = useState([])
+	// const { user, setLoaded } = useContext(MyContext);
 
 	useEffect(() => {
 		axios
@@ -19,27 +20,22 @@ const ViewOne = () => {
 			.then((res) => {
 				setPost(res.data);
 				setComments(res.data.comments);
+				setLikes(res.data.likes)
 				console.log(res.data);
 			})
 			.catch((err) => console.log(err));
 	}, []);
 
-	// useEffect(()=>{
-	//     axios.get('http://localhost:8000/api/users/getAuthor')
-	//     .then(res=>{
-	//         setUser(res.data)
-	//         console.log(res.data)
-	//     })
-	//     .catch(err=> console.log(err))
-	// },[])
-
 	const handleComment = (e) => {
 		e.preventDefault();
-		axios
-			.put(`http://localhost:8000/api/posts/${id}`)
+		axios.put(`http://localhost:8000/api/posts/add-comment/${id}`,{
+			//user_id,
+			//userName,
+			comment : newComment
+		})
 			.then((res) => {
 				console.log(res);
-				navigate("/dashboard");
+				//navigate("/dashboard");
 			})
 			.catch((err) => {
 				console.log(err);
@@ -52,21 +48,17 @@ const ViewOne = () => {
 	};
 	return (
 		<div>
-			ViewOne
-			<Card
-				postAuthor="Placeholder"
-				postDate={post.createdAt}
-				postImage={post.postImage}
-				postContent={post.content}
-				// postLikes={post.Likes} This does not display in the card
-			></Card>
-			<p>Number of likes: {post.Likes}</p>
-			{/* When I put the comments in the card it tries to mash them all into the chat bubble icon*/}
+			
+			<h3>Posted by: {post.authorName}</h3>
+			<h4>Posted on: {post.createdAt}</h4>
+			<img src={post.postImage}></img>
+			{post.content}
+			<p>Number of likes: {likes.length}</p>
 			<h4>Comments</h4>
 			{comments.map((item) => (
 				<>
-					<div key={item.user_id}>{item.userName}</div>
-					<div key={item.comment}>{item.comment}</div>
+					<div key={item.user_id}><h3>{item.userName}</h3></div>
+					<div key={item.comment}><p>{item.comment}</p></div>
 				</>
 			))}
 			<form onSubmit={handleComment}>
