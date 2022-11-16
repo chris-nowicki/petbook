@@ -80,15 +80,12 @@ const ViewOne = () => {
 				document
 					.getElementById("contentNoEdit")
 					.classList.toggle("hidden");
+					setErrors([])
 			})
 			.catch((err) => {
-				console.log(err);
-				const errorResponse = err.response.data.errors;
-				const errorArr = [];
-				for (const key of Object.keys(errorResponse)) {
-					errorArr.push(errorResponse[key].message);
-				}
-				setErrors(errorArr);
+				console.log(err.response.data.errors.content);
+				setErrors(err.response.data.errors.content);
+				
 			}, []);
 	};
 
@@ -132,14 +129,11 @@ const ViewOne = () => {
 				element.classList.toggle("hidden");
 				let element2 = document.getElementById("comment");
 				element2.value = "";
+				setErrors([])
 			})
 			.catch((err) => {
-				console.log(err);
-				const errorResponse = err.response.data.errors;
-				const errorArr = [];
-				for (const key of Object.keys(errorResponse)) {
-					errorArr.push(errorResponse[key].message);
-				}
+				console.log(err.response.data.errors["comments.comment"]);
+				setErrors(err.response.data.errors["comments.comment"]);
 			}, []);
 	};
 
@@ -204,14 +198,22 @@ const ViewOne = () => {
 						id="updatePostContent"
 						className="mb-4 flex hidden flex-row items-center"
 					>
-						<textarea
-							rows={2}
-							name="content"
-							id="updateContent"
-							className="w-3/4 rounded-md border-gray-300 text-base shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-							defaultValue={pageContent}
-							onChange={(e) => setPageContent(e.target.value)}
-						/>
+						<div className="flex w-full flex-col">
+							<textarea
+								rows={2}
+								name="content"
+								id="updateContent"
+								value={pageContent}
+								className="w-3/4 rounded-md border-gray-300 text-base shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+								defaultValue={pageContent}
+								onChange={(e) => setPageContent(e.target.value)}
+							/>
+							{errors && (
+								<p className="ml-1 text-sm text-red-600">
+									{errors.message}
+								</p>
+							)}
+						</div>
 						<button className="ml-10 w-1/4 rounded bg-orange-400 py-2 text-xl text-white shadow-md shadow-black/25">
 							Update
 						</button>
@@ -272,6 +274,11 @@ const ViewOne = () => {
 							defaultValue={""}
 							onChange={(e) => setNewComment(e.target.value)}
 						/>
+						{errors && (
+							<p className="ml-1 text-sm text-red-600">
+								{errors.message}
+							</p>
+						)}
 					</div>
 					<div className="flex w-full flex-row">
 						<button className=" mt-3 w-full border-black bg-orange-400 py-2 text-xl text-white shadow-md shadow-black/25">

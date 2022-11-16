@@ -2,7 +2,7 @@ const Post = require("../models/posts.model");
 
 module.exports = {
 	createPost: async (req, res) => {
-		console.log(req.body)
+		console.log(req.body);
 		Post.create(req.body)
 			.then((post) => {
 				console.log(post);
@@ -42,6 +42,7 @@ module.exports = {
 			},
 			{
 				new: true,
+				runValidators: true,
 			}
 		)
 			.then((updatePost) => res.json(updatePost))
@@ -71,6 +72,7 @@ module.exports = {
 				},
 				{
 					new: true,
+					runValidators: true,
 				}
 			)
 				.then((updatePost) => res.json({ message: "added" }))
@@ -109,12 +111,13 @@ module.exports = {
 	},
 
 	updateContent: (req, res) => {
+		console.log(req.body)
 		Post.findByIdAndUpdate({ _id: req.params.id }, req.body, {
-			new: true,
 			runValidators: true,
+			new: true,
 		})
 			.then((updatedContent) => res.json(updatedContent))
-			.catch((err) => res.status.json(err));
+			.catch((err) => res.status(400).json(err));
 	},
 	deletePost: (req, res) => {
 		Post.deleteOne({ _id: req.params.id })
