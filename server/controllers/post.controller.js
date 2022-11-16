@@ -49,15 +49,16 @@ module.exports = {
 
 	addLike: async (req, res) => {
 		const { id, user_id } = req.body;
+
+		// check if the user has already liked the post
 		const found = await Post.find({
 			_id: id,
 			likes: { $elemMatch: { user_id: user_id } },
-		})
+		});
 
-		console.log(found)
-
+		// if length of result is 0 the user was not found
+		// add the like to the database
 		if (found.length === 0) {
-			console.log("we get here")
 			Post.findOneAndUpdate(
 				{ _id: id },
 				{
@@ -71,9 +72,11 @@ module.exports = {
 					new: true,
 				}
 			)
-				.then((updatePost) => res.json({message: "added"}))
+				.then((updatePost) => res.json({ message: "added" }))
 				.catch((err) => res.status(400).json(err));
 		} else {
+			// if user is found as already liking the post then
+			// delete the like
 			Post.findOneAndUpdate(
 				{ _id: id },
 				{
@@ -103,6 +106,8 @@ module.exports = {
 			.then((liked) => res.json(liked))
 			.catch((err) => console.log(err));
 	},
+
+	// keeping this in for database maintenance purposes
 	deleteLike: async (req, res) => {
 		const { id, user_id } = req.body;
 		Post.findOneAndUpdate(
