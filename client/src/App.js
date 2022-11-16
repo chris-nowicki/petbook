@@ -49,6 +49,9 @@ function App() {
 								index
 								element={<CreateCat />}
 							/>
+							<Route path="create-dog" 
+								index
+								element={<CreateDog />} />
 						</Route>
 
 
@@ -57,7 +60,7 @@ function App() {
 							element={<Chat socket={socket} />}
 						/>
 
-						<Route path="/createdog" element={<CreateDog />} />
+						{/* <Route path="/createdog" element={<CreateDog />} /> */}
 
 						{/* END DASHBOARD ROUTE SECTION */}
 					</Routes>

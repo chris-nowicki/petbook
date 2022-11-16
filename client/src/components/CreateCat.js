@@ -79,15 +79,15 @@ const CreateCat = () => {
 		<div className="App">
 			{/* style */}
 
-            <div className='flex h-screen w-5/6 flex-col items-center justify-center'>
-			<div className='flex flex-col rounded border border-black p-4 shadow-md shadow-black/25 items-center'>
+            <div className="flex w-full flex-col items-center">
+			<div className='flex flex-col rounded border border-black p-4 shadow-md shadow-black/25 items-center mt-6'>
 					<img
-						className="animaPicture w-96 "
+						className="animalPicture "
 						src={picture}
 						alt="A cute and snuggly pet!"
 					/>
-				<button className="w-32 bg-stone-300 px-4 py-2 my-3 rounded hover:bg-lime-100" onClick={getCat}>Get A Cat!</button>
-				<div className="getForm items-center justify-center">
+				<button className="w-full bg-stone-300 px-4 py-2 my-3 rounded hover:bg-orange-100" onClick={getCat}>Get A Cat!</button>
+				<div className="getForm w-full items-center justify-center">
 					<form onSubmit={onSubmitHandler}>
 						{/* <label>
 							<h4>Add a caption:</h4>
@@ -96,15 +96,15 @@ const CreateCat = () => {
 							<p key={index}>{err}</p>
 							))}
 						<input type="hidden" value={picture} />
-						<textarea rows="3" className="block p-2.5 rounded-lg border border-gray-300"
+						<textarea rows="3" className="w-full p-2 rounded-lg border border-gray-300"
 							type="text" placeholder="add a caption"
 							onChange={(e) => setCaption(e.target.value)}
 							/>
 						<div>
 						<p className='ml-4 text-sm'>*8 characters required</p>
 						</div>
-						<div>
-							<button className='ml-6 bg-stone-300 px-4 py-2 my-3 rounded hover:bg-lime-100' type="submit">Save This Kitty!</button>
+						<div className='flex flex-row justify-center'>
+							<button className=' bg-stone-300 px-4 py-2 my-3 rounded hover:bg-orange-100' type="submit">Save This Kitty!</button>
 						</div>
 					</form>
 				</div>
