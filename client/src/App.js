@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./views/Dashboard";
 import ContextWrapper from "./components/ContextWrapper";
@@ -12,14 +12,6 @@ import CreatePost from "./components/CreatePost";
 import ViewOne from "./components/ViewOne";
 
 function App() {
-	// const [socket] = useState(() => io(":8001"));
-
-	// useEffect(() => {
-	// 	console.log("Effect running");
-	// 	socket.on("Welcome", (data) => console.log(data));
-	// 	return () => socket.disconnect(true);
-	// }, []);
-
 	return (
 		<div>
 			<ContextWrapper>

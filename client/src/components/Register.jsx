@@ -2,7 +2,7 @@ import React from "react";
 import Input from "./elements/Input";
 import MyContext from "../contexts/MyContext";
 import { useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import axios from "axios";
 
 const Register = () => {

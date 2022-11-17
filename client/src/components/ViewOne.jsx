@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { useParams, useNavigate, Link, Navigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import MyContext from "../contexts/MyContext";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
@@ -13,26 +13,29 @@ const ViewOne = () => {
 	const [newComment, setNewComment] = useState("");
 	const [likes, setLikes] = useState([]);
 	const [pageContent, setPageContent] = useState("");
-	const [author_id, setAuthor_id] = useState("");
 	const { user, setShowFilter } = useContext(MyContext);
 	const [clicked, setClicked] = useState(false);
 	const navigate = useNavigate();
 
+	// get post to view
 	useEffect(() => {
 		setShowFilter(false);
-
 		axios
-			.get(`http://localhost:8000/api/posts/${id}`)
+			.get(`http://localhost:8000/api/posts/${id}`, {
+				withCredentials: true,
+			})
 			.then((res) => {
 				setPost(res.data);
 				setLikes(res.data.likes);
 				setPageContent(res.data.content);
-				setAuthor_id(res.data.author_id);
-				let sortComments = res.data.comments
-				sortComments = sortComments.reverse()
+
+				// sort the comments in reverse
+				let sortComments = res.data.comments;
+				sortComments = sortComments.reverse();
 				setComments([...sortComments]);
 			})
 			.catch((err) => console.log(err));
+		// eslint-disable-next-line
 	}, []);
 
 	// check if the user is in the list of likes for the post
@@ -41,10 +44,14 @@ const ViewOne = () => {
 	// when user clicks like button this function runs
 	const handleLikes = () => {
 		axios
-			.put("http://localhost:8000/api/posts/add-like", {
-				id: post._id,
-				user_id: user._id,
-			})
+			.put(
+				"http://localhost:8000/api/posts/add-like",
+				{
+					id: post._id,
+					user_id: user._id,
+				},
+				{ withCredentials: true }
+			)
 			.then((res) => {
 				// if response from the database is added, set clicked to true
 				// set clicked to true changes the color of the like button from gray to blue
@@ -64,43 +71,92 @@ const ViewOne = () => {
 			});
 	};
 
-	//Add the visible className after :
-	const visible = user._id != author_id ? "invisible" : "";
-
+	// function to handle post content/caption by author
 	const handleUpdate = (e) => {
 		e.preventDefault();
 		axios
-			.put(`http://localhost:8000/api/posts/update-content/${id}`, {
-				content: pageContent,
-			})
+			.put(
+				`http://localhost:8000/api/posts/update-content/${id}`,
+				{
+					content: pageContent,
+				},
+				{ withCredentials: true }
+			)
 			.then((res) => {
-				console.log(res);
 				setPageContent(res.data.content);
 				document
 					.getElementById("updatePostContent")
-					.classList.toggle("hidden");
+					.classList.toggle("hidden", "flex", "flex-row");
 				document
 					.getElementById("contentNoEdit")
 					.classList.toggle("hidden");
 				setErrors([]);
 			})
 			.catch((err) => {
-				console.log(err.response.data.errors.content);
 				setErrors(err.response.data.errors.content);
 			}, []);
 	};
 
+	// function to handle post delete
 	const handleDelete = (_id) => {
 		axios
-			.delete(`http://localhost:8000/api/posts/delete-post/${id}`)
+			.delete(`http://localhost:8000/api/posts/delete-post/${id}`, {
+				withCredentials: true,
+			})
 			.then((res) => {
-				console.log(res);
 				navigate("/dashboard/feed");
 			})
 			.catch((err) => console.log(err));
 	};
 
-	// convert the date
+	const handleComment = (e) => {
+		e.preventDefault();
+
+		axios
+			.put(
+				`http://localhost:8000/api/posts/add-comment/${id}`,
+				{
+					fname: user.firstName,
+					lname: user.lastName,
+					user_id: user._id,
+					comment: newComment,
+				},
+				{ withCredentials: true }
+			)
+			.then((res) => {
+				// sort returned comments
+				let sortComments = res.data.comments;
+				sortComments = sortComments.reverse();
+				setComments([...sortComments]);
+
+				// hide create comment DOM
+				let element = document.getElementById("addComment");
+				element.classList.toggle("hidden");
+				setErrors([]);
+				setNewComment("");
+			})
+			.catch((err) => {
+				console.log(err.response.data);
+				setErrors(err.response.data.errors["comments.comment"]);
+			}, []);
+	};
+
+	// function to handle when a comment is deleted
+	const handleCommentDelete = (commentId) => {
+		axios
+			.put(`http://localhost:8000/api/posts/delete-comment`, {
+				id: post._id,
+				commentId: commentId,
+			})
+			.then((res) => {
+				let updateComments = comments.filter(
+					(comment) => comment._id !== commentId
+				);
+				setComments([...updateComments]);
+			});
+	};
+
+	// convert the post created at date
 	//get date from when post was created at through the date props
 	let convertedDate = new Date(post.createdAt);
 
@@ -115,47 +171,9 @@ const ViewOne = () => {
 	// get full year
 	let year = convertedDate.getFullYear();
 
-	const handleComment = (e) => {
-		e.preventDefault();
-		axios
-			.put(`http://localhost:8000/api/posts/add-comment/${id}`, {
-				fname: user.firstName,
-				lname: user.lastName,
-				user_id: user._id,
-				comment: newComment,
-			})
-			.then((res) => {
-				let sortComments = res.data.comments
-				sortComments = sortComments.reverse()
-				setComments([...sortComments]);
-				let element = document.getElementById("addComment");
-				element.classList.toggle("hidden");
-				let element2 = document.getElementById("comment");
-				element2.value = "";
-				setErrors([]);
-			})
-			.catch((err) => {
-				console.log(err.response.data.errors["comments.comment"]);
-				setErrors(err.response.data.errors["comments.comment"]);
-			}, []);
-	};
-
-	const handleCommentDelete = (commentId) => {
-		console.log(commentId);
-		axios
-			.put(`http://localhost:8000/api/posts/delete-comment`, {
-				id: post._id,
-				commentId: commentId,
-			})
-			.then((res) => {
-				let updateComments = comments.filter(
-					(comment) => comment._id !== commentId
-				);
-				setComments([...updateComments]);
-			});
-	};
 	return (
 		<div className="flex min-h-screen w-full flex-col p-6">
+			{/* post header with author, post date, and option to edit/delete if you are the signed in and the author */}
 			<div className="mb-1 flex w-full flex-row items-center justify-between">
 				<h3>
 					<span className="ml-1 text-orange-400">
@@ -166,6 +184,8 @@ const ViewOne = () => {
 						{month} {day}, {year}{" "}
 					</span>
 				</h3>
+
+				{/* if you are the author it will show edit/delete options.  Otherwise it won't */}
 				{post.author_id === user._id && (
 					<div>
 						<button
@@ -177,8 +197,6 @@ const ViewOne = () => {
 								document
 									.getElementById("contentNoEdit")
 									.classList.toggle("hidden");
-								document.getElementById("updateComment").value =
-									"";
 							}}
 						>
 							edit
@@ -195,11 +213,12 @@ const ViewOne = () => {
 			</div>
 			<div className="flex w-full flex-col rounded bg-gray-200 p-4 shadow-md shadow-black/25">
 				{/* author content with hidden update */}
-
 				<form onSubmit={handleUpdate}>
+					{/* this is the update content/caption form when author clicks edit */}
+					{/* it is hidden by default and hides upon successful update. */}
 					<div
 						id="updatePostContent"
-						className="mb-4 flex hidden flex-row items-center"
+						className="mb-4 flex hidden flex-row  items-center"
 					>
 						<div className="flex w-full flex-col">
 							<textarea
@@ -208,7 +227,6 @@ const ViewOne = () => {
 								id="updateContent"
 								value={pageContent}
 								className="w-3/4 rounded-md border-gray-300 text-base shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-								defaultValue={pageContent}
 								onChange={(e) => setPageContent(e.target.value)}
 							/>
 							{errors && (
@@ -222,16 +240,22 @@ const ViewOne = () => {
 						</button>
 					</div>
 				</form>
+
+				{/* page caption/content when view only */}
 				<p id="contentNoEdit" className="ml-1 mb-4 text-lg">
 					{pageContent}
 				</p>
 
+				{/* post image */}
 				<img
 					src={post.postImage}
-					alt="Post image"
+					alt="post"
 					className="viewOnePicture rounded"
 				/>
+
+				{/* footer of post with add comment button and like button */}
 				<div className="mt-2 flex w-full flex-row items-center justify-between">
+					{/* comment button to add button */}
 					<button
 						className="mx-1 rounded px-2 py-2 hover:bg-gray-300"
 						onClick={() => {
@@ -243,6 +267,7 @@ const ViewOne = () => {
 						<span className="ml-1">comment</span>
 					</button>
 
+					{/* like button with count */}
 					<div className="flex flex-row items-center">
 						<p className="mt-2 font-bold text-orange-400">
 							{likes.length}
@@ -256,7 +281,8 @@ const ViewOne = () => {
 					</div>
 				</div>
 			</div>
-			{/* add comment */}
+
+			{/* add comment hidden until user selects comment button */}
 			<form onSubmit={handleComment}>
 				<div
 					id="addComment"
@@ -273,10 +299,12 @@ const ViewOne = () => {
 							rows={2}
 							name="comment"
 							id="comment"
+							value={newComment}
 							className=" block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-							defaultValue={""}
 							onChange={(e) => setNewComment(e.target.value)}
 						/>
+
+						{/* validation errors displays when errors are true */}
 						{errors && (
 							<p className="ml-1 text-sm text-red-600">
 								{errors.message}
@@ -291,12 +319,17 @@ const ViewOne = () => {
 				</div>
 			</form>
 			{/* end add comment */}
+
+			{/* list comments */}
 			<div className="mt-4 flex flex-col shadow-sm shadow-black/25">
 				<h4 className="w-full rounded-t border-b bg-orange-400 text-center text-lg font-bold text-white">
 					Comments
 				</h4>
 				{comments.map((comment, index) => (
 					<>
+						{/* if index is even then highlight row slate-50 otherwise bg-white */}
+						{/* first div is section is for even index */}
+						{/* second div after ':' is for odd index rows */}
 						{index % 2 !== 1 ? (
 							<div
 								key={comment._id}
@@ -307,10 +340,12 @@ const ViewOne = () => {
 								</h3>
 								<div className="flex w-full flex-row items-center justify-between">
 									<p>{comment.comment}</p>
+									{/* if author of post give option to delete any comment */}
+									{/* if author of comment give option to delete your comment only */}
 									{(post.author_id === user._id ||
 										comment.user_id === user._id) && (
 										<button
-											className="relative top-0 right-0 mx-2 -translate-y-1/2"
+											className="relative top-0 right-0 mx-2 -translate-y-1/2 hover:text-orange-400"
 											onClick={() =>
 												handleCommentDelete(comment._id)
 											}

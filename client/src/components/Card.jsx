@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Badge from "@mui/material/Badge";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -10,7 +10,6 @@ function Card({
 	postImage,
 	postContent,
 	postComments,
-	postLikes,
 	userProps,
 	postId,
 	likeProps,
@@ -23,10 +22,14 @@ function Card({
 	// when user clicks like button this function runs
 	const handleLikes = () => {
 		axios
-			.put("http://localhost:8000/api/posts/add-like", {
-				id: postId,
-				user_id: userProps,
-			})
+			.put(
+				"http://localhost:8000/api/posts/add-like",
+				{
+					id: postId,
+					user_id: userProps,
+				},
+				{ withCredentials: true }
+			)
 			.then((res) => {
 				// if response from the database is added, set clicked to true
 				// set clicked to true changes the color of the like button from gray to blue
@@ -62,8 +65,7 @@ function Card({
 				<a href={`/dashboard/view-one/${postId}`} className="viewOne">
 					<p className="mb-2 text-center text-sm">
 						<span className="text-orange-600">{authorName}</span>{" "}
-						posted on{" "}
-						{/* data of post */}
+						posted on {/* data of post */}
 						<span className="text-orange-600">
 							{month} {day}, {year}
 						</span>

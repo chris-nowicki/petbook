@@ -23,6 +23,7 @@ const CreateDog = () => {
 			.catch((err) => {
 				navigate("/dashboard/feed");
 			});
+		// eslint-disable-next-line
 	}, []);
 
 	useEffect(() => {
@@ -34,7 +35,8 @@ const CreateDog = () => {
 				setPicture(res.data[0].url);
 			})
 			.catch((err) => console.log(err));
-	}, [0]);
+		// eslint-disable-next-line
+	}, []);
 
 	const getDog = (e) => {
 		e.preventDefault();
@@ -51,13 +53,17 @@ const CreateDog = () => {
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
 		axios
-			.post("http://localhost:8000/api/posts", {
-				author_id: user._id,
-				authorName: `${user.firstName} ${user.lastName}`,
-				postImage: picture,
-				content: caption,
-				species: "dog",
-			})
+			.post(
+				"http://localhost:8000/api/posts",
+				{
+					author_id: user._id,
+					authorName: `${user.firstName} ${user.lastName}`,
+					postImage: picture,
+					content: caption,
+					species: "dog",
+				},
+				{ withCredentials: true }
+			)
 			.then((res) => {
 				navigate("/dashboard/feed");
 			})

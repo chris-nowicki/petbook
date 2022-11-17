@@ -1,7 +1,6 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { response, request } = require("express");
 const secret = process.env.SECRET_KEY;
 
 module.exports = {
@@ -43,6 +42,11 @@ module.exports = {
 			return res.sendStatus(400);
 		}
 
+		// if password field is blank then return error
+		if (req.body.password === undefined) {
+			return res.sendStatus(400);
+		}
+
 		// if we made it this far, we found a user with this email address
 		// let's compare the supplied password to the hashed password in the database
 		const correctPassword = await bcrypt.compare(
@@ -75,16 +79,6 @@ module.exports = {
 		res.sendStatus(200);
 	},
 
-	// get all users
-	getAllUsers: (req, res) => {
-		User.find({})
-			.then((users) => res.json(users))
-			.catch((err) => {
-				console.log(err);
-				response.status(400).json(err);
-			});
-	},
-
 	// get logged in user
 	getLoggedInUser: (req, res) => {
 		const decodeJWT = jwt.decode(req.cookies.usertoken, {
@@ -104,7 +98,9 @@ module.exports = {
 		User.findOne({ _id: author_id })
 			.then((author) => {
 				console.log(author);
-				res.json({authorName: author.firstName + " " + author.lastName});
+				res.json({
+					authorName: author.firstName + " " + author.lastName,
+				});
 			})
 			.catch((err) => {
 				console.log(err);
@@ -112,43 +108,3 @@ module.exports = {
 			});
 	},
 };
-
-// backup for get one, update, and delete
-// get one product
-module.exports.getOneAuthor = (request, response) => {
-	Author.findOne({ _id: request.params.id })
-		.then((author) => {
-			console.log(author);
-			response.json(author);
-		})
-		.catch((err) => {
-			console.log(err);
-			response.json(err);
-		});
-};
-
-// // update product
-// module.exports.updateAuthor = (request, response) => {
-//     Author.findOneAndUpdate({_id: request.params.id}, request.body, {
-//         new: true,
-//         runValidators: true,
-//         })
-//         .then(updateAuthor => response.json(updateAuthor))
-//         .catch(err => {
-//             console.log(err)
-//             response.status(400).json(err)
-//         });
-// }
-
-// // delete product
-// module.exports.deleteAuthor = (request, response) => {
-//     Author.deleteOne({_id: request.params.id})
-//         .then(deleteConfirmation => {
-//             console.log(deleteConfirmation)
-//             response.json(deleteConfirmation)
-//         })
-//         .catch(err => {
-//             console.log(err)
-//             response.json(err)
-//         })
-// }

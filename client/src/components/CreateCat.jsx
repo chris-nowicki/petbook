@@ -33,7 +33,6 @@ const CreateCat = () => {
 			})
 			.then((res) => {
 				setPicture(res.data[0].url);
-				console.log(res.data);
 			})
 			.catch((err) => console.log(err));
 	}, []);
@@ -53,13 +52,17 @@ const CreateCat = () => {
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
 		axios
-			.post("http://localhost:8000/api/posts", {
-				author_id: user._id,
-				authorName: `${user.firstName} ${user.lastName}`,
-				postImage: picture,
-				content: caption,
-				species: "cat",
-			})
+			.post(
+				"http://localhost:8000/api/posts",
+				{
+					author_id: user._id,
+					authorName: `${user.firstName} ${user.lastName}`,
+					postImage: picture,
+					content: caption,
+					species: "cat",
+				},
+				{ withCredentials: true }
+			)
 			.then((res) => {
 				console.log(res);
 				navigate("/dashboard/feed");

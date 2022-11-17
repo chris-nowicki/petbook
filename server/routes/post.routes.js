@@ -2,14 +2,16 @@ const PostController = require("../controllers/post.controller");
 const { authenticate } = require("../config/jwt.config");
 
 module.exports = (app) => {
-	app.get("/api/posts", PostController.getAllPosts);
-	app.get("/api/posts/checkLiked", PostController.checkIfLiked);
-	app.post("/api/posts", PostController.createPost);
-	app.put("/api/posts/add-comment/:id", PostController.addComment);
-	app.put("/api/posts/add-like", PostController.addLike);
-	app.put("/api/posts/delete-like", PostController.deleteLike);
-	app.get('/api/posts/:id', PostController.getOne);
-	app.put("/api/posts/update-content/:id", PostController.updateContent);
+	app.get("/api/posts", authenticate, PostController.getAllPosts);
+	app.post("/api/posts", authenticate, PostController.createPost);
+	app.put("/api/posts/add-comment/:id", authenticate, PostController.addComment);
+	app.put("/api/posts/add-like", authenticate, PostController.addLike);
+	app.get("/api/posts/:id", authenticate, PostController.getOne);
+	app.put(
+		"/api/posts/update-content/:id",
+		authenticate,
+		PostController.updateContent
+	);
 	app.put("/api/posts/delete-comment/", PostController.deleteComment);
-	app.delete("/api/posts/delete-post/:id", PostController.deletePost);
+	app.delete("/api/posts/delete-post/:id", authenticate, PostController.deletePost);
 };

@@ -2,14 +2,11 @@ const Post = require("../models/posts.model");
 
 module.exports = {
 	createPost: async (req, res) => {
-		console.log(req.body);
 		Post.create(req.body)
 			.then((post) => {
-				console.log(post);
 				res.json(post);
 			})
 			.catch((err) => {
-				console.log(err);
 				res.status(400).json(err);
 			});
 	},
@@ -21,7 +18,6 @@ module.exports = {
 				res.json(posts);
 			})
 			.catch((err) => {
-				console.log(err);
 				response.status(400).json(err);
 			});
 	},
@@ -29,7 +25,6 @@ module.exports = {
 	addComment: async (req, res) => {
 		const { id } = req.params;
 		const { user_id, fname, lname, comment } = req.body;
-		console.log(req.body);
 		Post.findOneAndUpdate(
 			{ _id: id },
 			{
@@ -103,16 +98,7 @@ module.exports = {
 			.then((post) => res.json(post))
 			.catch((err) => res.json(err));
 	},
-	checkIfLiked: async (req, res) => {
-		const { id, user_id } = req.body;
-
-		Post.find({ _id: id, likes: { $elemMatch: { user_id: user_id } } })
-			.then((liked) => res.json(liked))
-			.catch((err) => console.log(err));
-	},
-
 	updateContent: (req, res) => {
-		console.log(req.body);
 		Post.findByIdAndUpdate({ _id: req.params.id }, req.body, {
 			runValidators: true,
 			new: true,
@@ -125,32 +111,8 @@ module.exports = {
 			.then((deleteConfirmation) => res.json(deleteConfirmation))
 			.catch((err) => res.json(err));
 	},
-
-	// keeping this in for database maintenance purposes
-	deleteLike: async (req, res) => {
-		const { id, user_id } = req.body;
-		Post.findOneAndUpdate(
-			{ _id: id },
-			{
-				$pull: {
-					likes: {
-						user_id: user_id,
-					},
-				},
-			},
-			{
-				new: true,
-			}
-		).then((like) => {
-			res.json(like);
-		});
-	},
 	deleteComment: async (req, res) => {
 		const { id, commentId } = req.body;
-
-		console.log("we get here");
-		console.log(id);
-		console.log(commentId);
 		Post.findOneAndUpdate(
 			{ _id: id },
 			{

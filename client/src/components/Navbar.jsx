@@ -19,7 +19,7 @@ function Navbar() {
 				{},
 				{ withCredentials: true }
 			)
-			.then((res) => {
+			.then(() => {
 				setUser(null);
 				setLoaded(false);
 				navigate("/");

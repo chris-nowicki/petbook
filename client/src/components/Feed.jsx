@@ -9,7 +9,7 @@ function Feed() {
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
-		setShowFilter(true)
+		setShowFilter(true);
 		axios
 			.get("http://localhost:8000/api/posts", {
 				withCredentials: true,
@@ -42,25 +42,22 @@ function Feed() {
 	}
 
 	return (
-		<div className="flex w-full flex-col items-center min-h-screen pb-24">
+		<div className="flex min-h-screen w-full flex-col items-center pb-24">
 			{loaded && (
 				<>
 					<div className="mt-6 flex flex-row flex-wrap justify-center">
 						{filteredPosts.map((post) => (
-						
-								<Card
-									key={post._id}
-									postId={post._id}
-									authorName={post.authorName}
-									postDate={post.createdAt}
-									postImage={post.postImage}
-									postContent={post.content}
-									postComments={post.comments.length}
-									postLikes={post.likes.length}
-									userProps={user._id}
-									likeProps={post.likes}
-								/>
-						
+							<Card
+								key={post._id}
+								postId={post._id}
+								authorName={post.authorName}
+								postDate={post.createdAt}
+								postImage={post.postImage}
+								postContent={post.content}
+								postComments={post.comments.length}
+								userProps={user._id}
+								likeProps={post.likes}
+							/>
 						))}
 					</div>
 				</>
